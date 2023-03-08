@@ -1,0 +1,124 @@
+* RSP Week 07 Lecture Notes
+** Alternative Way to Launch Ignition Gazebo
+   #+begin_src sh
+     ros2 launch ros_ign_gazebo ign_gazebo.launch.py ign_args:="<filename> -v 4"
+   #+end_src
+   - <filename>: The filename can be either .sdf or .world file.
+   - -v 4: Verbose setting. It will print extra information to the screen. Good for debuging.
+** Briding Data from Ign Gazebo to ROS
+   #+begin_src sh
+     ros2 run ros_ign_bridge parameter_bridge <TopicName>@<ROS_MSG_Type>[<GAZEBO_MSG_TYPE>
+   #+end_src
+   e.g.
+   #+begin_src sh
+     ros2 run ros_ign_bridge parameter_bridge /image@sensor_msgs/msg/Image[ignition.msgs.Image
+   #+end_src
+* GAZEBO Plugin
+** Useful documentation
+   1. [[https://gazebosim.org/api/gazebo/2.10/createsystemplugins.html][Gazebo Create System Plugin]]
+** Create Plugin
+   To create a plugin, a C++ class is needed. This C++ class needs to be derived from the following classes.
+   1. [[https://gazebosim.org/api/gazebo/2.10/classignition_1_1gazebo_1_1System.html][System]] class from Ignition Gazebo. This class only has empty constructor and descructor, but it must be presented for Gazebo to be successfully initiated!
+   2. [[https://gazebosim.org/api/gazebo/2.10/classignition_1_1gazebo_1_1ISystemConfigure.html][ISystemConfigure]] class is to prepare your customized plugins. For example, you might want to give it some parameters or tags.
+   3. Either of (or all of) the following class.
+      - [[https://gazebosim.org/api/gazebo/2.10/classignition_1_1gazebo_1_1ISystemPreUpdate.html][ISystemPreUpdate]]
+      - [[https://gazebosim.org/api/gazebo/2.10/classignition_1_1gazebo_1_1ISystemUpdate.html][ISystemUpdate]]
+      - [[https://gazebosim.org/api/gazebo/2.10/classignition_1_1gazebo_1_1ISystemPostUpdate.html][ISystemPostUpdate]]
+** Template file for plugins
+*** <filename>.hpp
+    #+begin_src cpp
+      #include <ignition/gazebo/System.hh>
+
+      using ignition::gazebo;
+      class <className>:
+	public System,
+	public ISystemConfigure,
+	public ISystemPreUpdate,
+	public ISystemUpdate,
+	public ISystemPostUpdate {
+      public:
+	<className>();
+	~<className>();
+
+	void Configure( const Entity& entity,
+			const std::shared< const sdf::Element>& sdf,
+			EntityComponentManager& ecm,
+			EventManager& eventmgr ) override;
+
+	void PreUpdate( const UpdateInfo& info,
+			EntityComponentManager& ecm ) override;
+
+	void Update( const UpdateInfo& info,
+		     EntityComponentManager& ecm ) override;
+
+	void PostUpdate( const UpdateInfo& info,
+			 const EntityComponentManager& ecm ) override;
+
+      };
+    #+end_src
+    Code Explanation:
+    1. entity:
+    2. sdf:
+    3. eventmgr:
+    4. override:
+    5. PostUpdate -const ecm-:
+       The reason why there is a const in front of the EntityComponentManager is that during the post update stage, the simulation is already complete and there is no reason to change the result. In other words, users only need to read the results rather than modify them.
+
+*** <filename>.cpp
+    #+begin_src cpp
+      #include <filename.hpp>
+      #include <ignition/plugin/register.hh>
+
+      <className>::<className>(){}
+      <className>::~<className>(){}
+      void <className>::configure( const entity& entity,
+				   const std::shared< const sdf::element>& sdf,
+				   entitycomponentmanager& ecm,
+				   eventmanager& eventmgr ){
+	// Coding here
+      }
+      void <className>::PreUpdate( const UpdateInfo& info,
+				   EntityComponentManager& ecm ){
+	// Coding here
+      }
+
+      void <className>::Update( const UpdateInfo& info,
+				EntityComponentManager& ecm ){
+	// Coding here
+      }
+
+      void <className>::PostUpdate( const UpdateInfo& info,
+				    const EntityComponentManager& ecm ){
+	// Coding here
+      }
+
+      IGNITION_ADD_PLUGIN( <className>,
+			   System,
+			   <className>::ISystemConfigure,
+			   <className>::ISystemPreUpdate,
+			   <className>::ISystemUpdate,
+			   <className>::ISystemPostUpdate )
+    #+end_src
+
+*** CMakeList.txt
+    The following code goes into the CMakeList.txt file.
+    #+begin_src c
+      find_package(ignition-cmake2 REQUIRED)
+      ign_find_package( ignition-plugin1 REQUIRED COMPONENT register )
+      ign_find_package( ignition-gazebo6 REQUIRED )
+
+      set( IGN_PLUGIN_VER ${ignition_plugin1_VERSION_MAJOR} )
+      set( IGN_GAZEBO_VER ${ignition_gazebo6_VERSION_MAJOR} )
+
+      include_directories( include )
+      add_library( <pluginName> SHARED src/<pluginName>.cpp )
+      target_link_libraries( <pluginName> 
+	PRIVATE ignition-plugin${IGN_PLUGIN_VER}::ignition-plugin${IGN_PLUGIN_VER}
+	PRIVATE ignition-gazebo${IGN_GAZEBO_VER}::ignition-gazebo${IGN_GAZEBO_VER} )
+
+
+
+    #+end_src
+* (Additional) C++ Pure Virtual Functions
+  Coming Soon...
+
