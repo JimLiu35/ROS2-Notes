@@ -1,0 +1,108 @@
+* RSP Week06 Simulation
+** Additional Packages
+   - ignition-fortress
+     sudo apt install ignition-fortress
+   - ros-ign
+     sudo apt-get install ros-galactic-ros-ign
+** ign commands
+   1. ign -h
+   2. ign gazebo : open gazebo
+   3. ign gazebo empty.sdf : open an empty gazebo simulation
+      .sdf is a xml format file, similar urdf files.
+   4. ign gazebo -s empty.sdf : similar to previous command but no visualization.
+   5. ign topic -e --topic /keyboard/keypress : print keypress to terminal
+   6. ign topic -i --topic /keyboard/keypress : get information from a specific topic.
+   7. ros2 run ros_ign_bridge parameter_bridge /keyboard/keypress@std_msgs/msg/Int32@ignition.msgs.Int32
+   8. ign service -s /world/empty/create --reqtype ignition.msgs.EntityFactory --reptype ignition.msgs.boolean --timeout 1000 --req 'sdf_filename: "/jimliu/rsp_workspace/src/lecture/rsp_week05/urdf/robot.urdf", name:"rsp"'
+   9. ign service -s /world/empty/create --reqtype ignition.msgs.EntityFactory --reptype ignition.msgs.Boolean --timeout 1000 --req 'sdf_filename: "home/jimliu/rsp_workspace/src/lecture/rsp_week05/urdf/robot.urdf",name:"RSP"'
+
+
+** Dynamic Simulation
+   Bridge translates data between GAZEBO and ROS.
+   Cannot use ROS messages to access data from GAZEBO.
+
+** sdf - inertia matrix
+   [xx xy xz; xy yy yz; xz yz zz] this is a symmetric matrix.
+   
+* Linking between Gazebo and ROS2
+
+** Convertion of Messages
+   Messages used in the Gazebo simulation are not the same as those used in ROS2. Hence, Gazebo has a built in bridge that can convert a certain Gazebo message to ROS2 message. To do this,
+   - First, you need to figure out what kind of msgs of a certiain Gazebo is.
+     Get a list of Gazebo topics by using
+     #+begin_src sh
+     ign topic -l
+     #+end_src
+     e.g. this could be the result of the above command.
+     #+begin_src sh
+     /camera_info
+     /clock
+     /gazebo/resource_paths
+     /gui/camera/pose
+     /image
+     /stats
+     /world/empty/clock
+     /world/empty/dynamic_pose/info
+     /world/empty/model/RSP/joint_state
+     /world/empty/pose/info
+     /world/empty/scene/deletion
+     /world/empty/scene/info
+     /world/empty/state
+     /world/empty/stats
+     #+end_src
+     Then, use the following command to find out what type of msgs that particular topic is using.
+     #+begin_src sh
+     ign topic -i -t <topic_name>
+     #+end_src
+     e.g. 
+     #+begin_src sh
+     ign topic -i -t /world/empty/model/RSP/joint_state
+     #+end_src
+     Here is a possible response from the command line.
+     #+begin_src sh
+     Publishers [Address, Message Type]:
+     tcp://10.203.242.94:34685, ignition.msgs.Model
+     #+end_src
+   - Secondly, check the corre​sponding ROS2 msgs.
+     Go to [[https://index.ros.org/p/ros_ign_bridge/#galactic][ros-ign-bridge]] website. In our example, the corresponding ros msgs is =​/sensor_msgs/msg/JointState/=.
+   - Thirdly, use the following command to build the bridge between two messages.
+     #+begin_src sh
+     ros2 run ros_ign_bridge parameter_bridge <ign_topic_name>@<ros_msgs_type>@<Gazebo_msgs_type>
+     #+end_src
+     e.g. in our example, the above command would be
+     #+begin_src sh
+     ros2 run ros_ign_bridge parameter_bridge /world/empty/model/RSP/joint_state@sensor_msgs/msg/JointState@ignition.msgs.Model
+     #+end_src
+   - Finally, you can use ros2 topic list to check the converted msgs.
+** Visualize Gazebo Simulation in Rviz2
+*** Start Gazebo Simulation Scene
+    In one terminal, you should start an empty Gazebo simulation file.
+     #+begin_src sh
+     ign gazebo empty.sdf
+     #+end_src
+    In a second terminal, you should load your urdf file to your Gazebo simulation. Here is a sampel command.
+     #+begin_src sh
+     ign service -s /world/empty/create --reqtype ignition.msgs.EntityFactory --reptype ignition.msgs.Boolean --timeout 1000 --req 'sdf_filename: "home/jimliu/rsp_workspace/src/lecture/rsp_week05/urdf/robot.urdf",name:"RSP"'
+     #+end_src
+     Note that you must run this command after your first command. Otherwise, it will fail to load the urdf file.
+*** Create the bridge between Gazebo and ROS2
+    To successfully load the RobotModel inside RVIZ2, =joint_state_publisher= must publisher the kinematics between different links. Therefore, this command is necessary.
+     #+begin_src sh
+     ros2 run ros_ign_bridge parameter_bridge /world/empty/model/RSP/joint_state@sensor_msgs/msg/JointState@ignition.msgs.Model
+     #+end_src
+     This is equivalent to manually start the =joint_state_publisher_gui= as we did in previous lectures.
+     #+begin_src sh
+     ros2 run joint_state_publisher_gui joint_state_publisher_gui
+     #+end_src
+*** Start the =robot_state_publisher=
+    The following command manually load the urdf file into =robot_state_publisher=, which allows the rviz to extract infomation from the topic, =robot_description=.
+     #+begin_src sh
+     ros2 run robot_state_publisher robot_state_publisher --ros-args -p robot_description:="`cat robot.urdf`" -r joint_states:=/world/empty/model/RSP/joint_state
+     #+end_src
+*** Start rviz2
+     #+begin_src sh
+     ros2 run rviz2 rviz2
+     #+end_src
+     Becareful with the =robot_description= topic name. Make sure it matches to what you have got from the ros2 topic list.
+
+
