@@ -31,28 +31,28 @@
 
       using ignition::gazebo;
       class <className>:
-	public System,
-	public ISystemConfigure,
-	public ISystemPreUpdate,
-	public ISystemUpdate,
-	public ISystemPostUpdate {
+        public System,
+        public ISystemConfigure,
+        public ISystemPreUpdate,
+        public ISystemUpdate,
+        public ISystemPostUpdate {
       public:
-	<className>();
-	~<className>();
+        <className>();
+        ~<className>();
 
-	void Configure( const Entity& entity,
-			const std::shared< const sdf::Element>& sdf,
-			EntityComponentManager& ecm,
-			EventManager& eventmgr ) override;
+        void Configure( const Entity& entity,
+                    const std::shared< const sdf::Element>& sdf,
+                    EntityComponentManager& ecm,
+                    EventManager& eventmgr ) override;
 
-	void PreUpdate( const UpdateInfo& info,
-			EntityComponentManager& ecm ) override;
+        void PreUpdate( const UpdateInfo& info,
+                        EntityComponentManager& ecm ) override;
 
-	void Update( const UpdateInfo& info,
-		     EntityComponentManager& ecm ) override;
+        void Update( const UpdateInfo& info,
+                     EntityComponentManager& ecm ) override;
 
-	void PostUpdate( const UpdateInfo& info,
-			 const EntityComponentManager& ecm ) override;
+        void PostUpdate( const UpdateInfo& info,
+                         const EntityComponentManager& ecm ) override;
 
       };
     #+end_src
@@ -72,32 +72,32 @@
       <className>::<className>(){}
       <className>::~<className>(){}
       void <className>::configure( const entity& entity,
-				   const std::shared< const sdf::element>& sdf,
-				   entitycomponentmanager& ecm,
-				   eventmanager& eventmgr ){
-	// Coding here
+                                   const std::shared< const sdf::element>& sdf,
+                                   entitycomponentmanager& ecm,
+                                   eventmanager& eventmgr ){
+        // Coding here
       }
       void <className>::PreUpdate( const UpdateInfo& info,
-				   EntityComponentManager& ecm ){
-	// Coding here
+                                   EntityComponentManager& ecm ){
+        // Coding here
       }
 
       void <className>::Update( const UpdateInfo& info,
-				EntityComponentManager& ecm ){
-	// Coding here
+                                EntityComponentManager& ecm ){
+        // Coding here
       }
 
       void <className>::PostUpdate( const UpdateInfo& info,
-				    const EntityComponentManager& ecm ){
-	// Coding here
+                                    const EntityComponentManager& ecm ){
+        // Coding here
       }
 
       IGNITION_ADD_PLUGIN( <className>,
-			   System,
-			   <className>::ISystemConfigure,
-			   <className>::ISystemPreUpdate,
-			   <className>::ISystemUpdate,
-			   <className>::ISystemPostUpdate )
+                           System,
+                           <className>::ISystemConfigure,
+                           <className>::ISystemPreUpdate,
+                           <className>::ISystemUpdate,
+                           <className>::ISystemPostUpdate )
     #+end_src
 
 *** CMakeList.txt
@@ -107,18 +107,36 @@
       ign_find_package( ignition-plugin1 REQUIRED COMPONENT register )
       ign_find_package( ignition-gazebo6 REQUIRED )
 
-      set( IGN_PLUGIN_VER ${ignition_plugin1_VERSION_MAJOR} )
-      set( IGN_GAZEBO_VER ${ignition_gazebo6_VERSION_MAJOR} )
+      set( IGN_PLUGIN_VER ${ignition-plugin1_VERSION_MAJOR} )
+      set( IGN_GAZEBO_VER ${ignition-gazebo6_VERSION_MAJOR} )
 
       include_directories( include )
       add_library( <pluginName> SHARED src/<pluginName>.cpp )
-      target_link_libraries( <pluginName> 
-	PRIVATE ignition-plugin${IGN_PLUGIN_VER}::ignition-plugin${IGN_PLUGIN_VER}
-	PRIVATE ignition-gazebo${IGN_GAZEBO_VER}::ignition-gazebo${IGN_GAZEBO_VER} )
+      set_property( TARGET <pluginName> PROPERTY CXX_STANDARD 17)
+      target_link_libraries( <pluginName>
+        PRIVATE ignition-plugin${IGN_PLUGIN_VER}::ignition-plugin${IGN_PLUGIN_VER}
+        PRIVATE ignition-gazebo${IGN_GAZEBO_VER}::ignition-gazebo${IGN_GAZEBO_VER} )
+      install( TARGETS <pluginName> LIBRARY DESTINATION lib )
 
 
 
     #+end_src
+** Attach Plugin
+The customized plugin can be attached via urdf file. The following code must be properly written in your urdf/xacro file.
+#+begin_src xml
+<gazebo>
+  <plugin filename="pluginName" name="className">
+    <tag1> ... </tag1>
+    <tag2> ... </tag2>
+    <tag3> ... </tag3>
+    ...
+  </plugin>
+</gazebo>
+
+#+end_src
+- Note that the className variable has to be the one you used in your plugin's source file.
+- Although optional, your plugin can have multiple tags. It really depends on how you cod your plugin.
+
 * (Additional) C++ Pure Virtual Functions
   Coming Soon...
 
