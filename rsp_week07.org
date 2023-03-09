@@ -16,6 +16,7 @@
 * GAZEBO Plugin
 ** Useful documentation
    1. [[https://gazebosim.org/api/gazebo/2.10/createsystemplugins.html][Gazebo Create System Plugin]]
+   2. [[https://gazebosim.org/api/gazebo/2.10/namespaceignition_1_1gazebo.html][ignition::gazebo namespace]]
 ** Create Plugin
    To create a plugin, a C++ class is needed. This C++ class needs to be derived from the following classes.
    1. [[https://gazebosim.org/api/gazebo/2.10/classignition_1_1gazebo_1_1System.html][System]] class from Ignition Gazebo. This class only has empty constructor and descructor, but it must be presented for Gazebo to be successfully initiated!
@@ -41,9 +42,9 @@
         ~<className>();
 
         void Configure( const Entity& entity,
-                    const std::shared< const sdf::Element>& sdf,
-                    EntityComponentManager& ecm,
-                    EventManager& eventmgr ) override;
+                        const std::shared< const sdf::Element>& sdf,
+                        EntityComponentManager& ecm,
+                        EventManager& eventmgr ) override;
 
         void PreUpdate( const UpdateInfo& info,
                         EntityComponentManager& ecm ) override;
@@ -57,11 +58,11 @@
       };
     #+end_src
     Code Explanation:
-    1. entity:
-    2. sdf:
+    1. entity: In Gazebo, everything that belongs to the =world= is called =Entity=. It is actually a number. In other words, whatever you have in gazebo (joints, links, sensors etc.), each one of them is assigned to a unique number like an ID.
+    2. sdf: this =sdf= will give you all elements you have under the <plugin> tag.
     3. eventmgr:
     4. override:
-    5. PostUpdate -const ecm-:
+    5. PostUpdate =const ecm=:
        The reason why there is a const in front of the EntityComponentManager is that during the post update stage, the simulation is already complete and there is no reason to change the result. In other words, users only need to read the results rather than modify them.
 
 *** <filename>.cpp
@@ -117,9 +118,6 @@
         PRIVATE ignition-plugin${IGN_PLUGIN_VER}::ignition-plugin${IGN_PLUGIN_VER}
         PRIVATE ignition-gazebo${IGN_GAZEBO_VER}::ignition-gazebo${IGN_GAZEBO_VER} )
       install( TARGETS <pluginName> LIBRARY DESTINATION lib )
-
-
-
     #+end_src
 ** Attach Plugin
 The customized plugin can be attached via urdf file. The following code must be properly written in your urdf/xacro file.
@@ -135,8 +133,15 @@ The customized plugin can be attached via urdf file. The following code must be 
 
 #+end_src
 - Note that the className variable has to be the one you used in your plugin's source file.
-- Although optional, your plugin can have multiple tags. It really depends on how you cod your plugin.
+- Although optional, your plugin can have multiple tags. It really depends on how you code your plugin.
 
+* IGN Gazebo Data Transportation
+Ignition gazebo has its own node to transport data from Gazebo simulation to outside world. It is different from ROS node but it can still publish data or be subscribed by other IGN nodes.
+** Header File
+#+begin_src c++
+#include <ignition/transport/Node.hh>
+#+end_src
+The =Node= class is under the =ignition::transport= namespace.
 * (Additional) C++ Pure Virtual Functions
   Coming Soon...
 
