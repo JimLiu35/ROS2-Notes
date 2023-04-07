@@ -119,6 +119,8 @@
 
 
     #+end_src
-* (Additional) C++ Pure Virtual Functions
+* (Additional) C++ Pure [[fn:][Virtual Functions]]
   Coming Soon...
 
+  #+begin_src c
+  #+end_src

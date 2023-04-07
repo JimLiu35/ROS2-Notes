@@ -1,0 +1,361 @@
+#+title:Rsp Week08
+
+In this week, we have taught about the orocos.
+* Installation
+Building Orocos/RTT and Reflexxes library
+
+1) Clone the repositories
+
+Clone the Orocos toolchain in your workspace:
+
+#+BEGIN_SRC c++
+git clone -b ros2 https://github.com/orocos-toolchain/orocos_toolchain.git --recursive
+This repository is for the Eigen/KDL typekits
+
+git clone https://github.com/simonleonard/ros2_rtt_typekits.git
+#+END_SRC
+This one is for the ROS/RTT integration
+
+#+BEGIN_SRC c++
+git clone -b feature/add-rtt_tf2 https://github.com/simonleonard/rtt_ros2_integration.git
+#+END_SRC
+And this one for the ROS typekits
+
+#+BEGIN_SRC c++
+git clone https://github.com/simonleonard/rtt_ros2_common_interfaces
+#+END_SRC
+2) Build Orocos toolchain by itself
+
+#+BEGIN_SRC c++
+colcon build --packages-select orocos_toolchain
+source install/setup.bash
+#+END_SRC
+3) Build the rest
+
+#+BEGIN_SRC c++
+colcon build
+#+END_SRC
+
+
+4) Build Reflexxes library.
+
+a) Download and extract Reflexxes in some directory, say:
+
+
+#+BEGIN_SRC c++
+mkdir -p ~/src/reflexxes
+unzip ~/Downloads/ReflexxesTypeII.zip -d ~/src/reflexxes/
+cd ~/src/reflexxes/ReflexxesTypeII/Linux
+#+END_SRC
+
+Visit Manage Class to disable runnable code snippets
+
+b) Patch makefile and run Make
+
+#+BEGIN_SRC c++
+sed -i s/ddb/gdb/ Makefile.global
+make all64
+#+END_SRC
+c) Copy header files and library
+#+BEGIN_SRC c++
+sudo cp x64/release/lib/shared/libReflexxesTypeII.so /usr/local/lib/
+sudo cp ../include/* /usr/local/include/
+#+END_SRC
+* Orocos Tutorial
+** Sensor plugin
+Orocos plugin is similar with gazebo plugin that include:
+- configureHook
+- startHook
+- updateHook
+- stopHook
+- cleanupHook
+
+*** sensor.hpp
+#+BEGIN_SRC c++
+#include <rtt/TaskContext.hpp>
+#include <rtt/OutputPort.hpp>
+#include <kdl/frames.hpp>
+
+class rtt_sensor : public RTT::TaskContext {
+
+private:
+
+  RTT::OutputPort<KDL::Wrench> port_msr_wrench;
+  //orocos version of publisher
+  KDL::Wrench ft;
+
+public:
+
+  rtt_sensor( const std::string& name );
+
+  virtual bool configureHook();
+  virtual bool startHook();
+
+  virtual void updateHook();
+
+  virtual void stopHook();
+  virtual void cleanupHook();
+
+  void zero();
+  KDL::Wrench getWrench();
+  void setOffset( const KDL::Wrench& ft );
+};
+#+END_SRC
+
+*** rtt_sensor.cpp
+#+Begin_SRC c++
+#include <rsp_week07/rtt_sensor.hpp>
+#include <iomanip>
+#include <rtt/Component.hpp>
+
+rtt_sensor::rtt_sensor( const std::string& name ) :
+  RTT::TaskContext( name ),
+  port_msr_wrench(){
+
+  addPort("MsrWrench", port_msr_wrench).doc("Measured wrench");
+
+  addOperation("Zero", &rtt_sensor::zero, this,RTT::OwnThread);
+  addOperation("GetWrench", &rtt_sensor::getWrench, this, RTT::OwnThread );
+  addOperation("SetOffset", &rtt_sensor::setOffset, this, RTT::OwnThread );
+
+  std::cout << "rtt_sensor::rtt_sensor" << std::endl;
+
+}
+
+bool rtt_sensor::configureHook(){
+  std::cout << "rtt_sensor::configureHook" << std::endl;
+  return true;
+}
+
+bool rtt_sensor::startHook(){
+  std::cout << "rtt_sensor::startHook" << std::endl;
+  return true;
+}
+
+void rtt_sensor::stopHook(){
+  std::cout << "rtt_sensor::stopHook" << std::endl;
+}
+
+void rtt_sensor::cleanupHook(){
+  std::cout << "rtt_sensor::cleanupHook" << std::endl;
+}
+
+void rtt_sensor::updateHook(){
+
+  //std::cout << "rtt_sensor::updatHook" << std::endl;
+  ft.force.x( rand() );
+  ft.force.y( rand() );
+  ft.force.z( rand() );
+  port_msr_wrench.write(ft);
+}
+
+void rtt_sensor::zero(){
+  std::cout << "rtt_sensor::zero" << std::endl;
+  ft.force.x(0.0);
+  ft.force.y(0.0);
+  ft.force.z(0.0);
+}
+
+void rtt_sensor::setOffset( const KDL::Wrench& ft ){
+  std::cout << "rtt_sensor::setOffset "
+	    << ft.force.x() << std::setw(15)
+	    << ft.force.y() << std::setw(15)
+	    << ft.force.z() << std::endl;
+}
+
+KDL::Wrench rtt_sensor::getWrench(){
+  std::cout << "rtt_sensor::getWrench" << std::endl;
+  return ft;
+}
+
+ORO_CREATE_COMPONENT(rtt_sensor)
+#+END_SRC
+
+** orocos terminal tutorial
+- open the terminal -> colcon build -> source install/setup.bash
+- type "deployer" : it will come out the interface for orocos
+  - import("rsp_week07") : import the package into orocos and it will return **True**. If **FALSE**, check the .so and source the install.
+  - .typekit
+  - .type : come out different types that orocos can be processed.
+  - ls : list all info include path, and operation.
+    - help + operation command : give the explantion of each operation
+- *Operation*
+  - loadComponent("Name of Component", "Type"): Name can be freely defined and type is the class name. i.e loadComponent("sensor", "rtt_sensor")
+  - setActivity( string const& CompName, double Period, int Priority, int SchedType ) : bool
+    - CompName: freely define
+    - Period: Frequency
+    - priority: the priority usage in CPU
+    - SchedType: ORO_SCHED_OTHER
+  - sensor.configure()
+  - sensor.start()
+- sensor[R]
+  - =GetWrench()=
+  - SetOffset()
+    - var KDL.Wrench offset
+      - offset.force[2] = 10
+      - SetOffset(offset)
+  - Zero
+  - SetPeriod()
+  - GetPeriod()
+  - isActive()
+** Integrate the terminal command into one ops file
+*** sensor.ops
+#+BEGIN_SRC c++
+import("rtt_ros2")
+import("rtt_ros2_node")
+import("rtt_ros2_topics")
+import("rtt_ros2_geometry_msgs")
+
+import("rsp_week07")
+import("kdl_typekit")
+
+loadComponent("sensor", "rtt_sensor")
+setActivity("sensor", 1, 0, ORO_SCHED_OTHER)
+sensor.configure()
+sensor.start()
+#+END_SRC
+run the above:
+#+BEGIN_SRC shell
+deployer -s src/rsp/rsp_week07/scripts/sensor.ops
+#+END_SRC
+** RTT Robot.plugin
+*** =rtt_robot.hpp=
+#+begin_src c++
+#include <rtt/TaskContext.hpp>
+#include <rtt/InputPort.hpp>
+#include <rtt/OutputPort.hpp>
+
+#include <kdl/frames.hpp>
+#include <kdl/jntarray.hpp>
+
+class rtt_robot : public RTT::TaskContext {
+
+private:
+
+  RTT::InputPort<KDL::Wrench> port_msr_wrench;
+  RTT::OutputPort<KDL::JntArray> port_msr_joints;
+
+  RTT::OperationCaller<void(void)> zero;
+  RTT::OperationCaller<void(const KDL::Wrench&)> offset;
+
+public:
+
+  rtt_robot( const std::string& name );
+
+  virtual bool configureHook();
+  virtual bool startHook();
+
+  virtual void updateHook();
+
+  virtual void stopHook();
+  virtual void cleanupHook();
+
+};
+#+end_src
+*** =rtt_robot.cpp=
+#+begin_src c++
+#include <rsp_week07/rtt_robot.hpp>
+#include <iomanip>
+#include <rtt/Component.hpp>
+
+rtt_robot::rtt_robot( const std::string& name ) :
+  TaskContext(name){
+
+  std::cout << "rtt_robot::rtt_robot" << std::endl;
+
+  addPort("MsrWrench", port_msr_wrench ).doc("Measured wrench");
+  addPort("MsrJntPos", port_msr_joints ).doc("Measured joint positions");
+  // publish the measurement
+
+}
+
+bool rtt_robot::configureHook(){
+
+  std::cout << "rtt_robot::configureHook" << std::endl;
+
+  std::vector<std::string> peer_list = getPeerList();
+  for(int i=0; i<peer_list.size(); i++ ){
+    std::cout << "Peer " << i << " " << peer_list[i] << std::endl;
+    // check peer list that it add the sensor component
+    if( peer_list[i] == "sensor" ){
+      // OperationCaller
+      // it's same as in deployer: cd sensor -> Zero
+      zero = getPeer(peer_list[i])->getOperation("Zero");
+      offset = getPeer(peer_list[i])->getOperation("SetOffset");
+    }
+  }
+  return true;
+}
+
+bool rtt_robot::startHook(){
+  std::cout << "rtt_robot::startHook" << std::endl;
+  return true;
+}
+
+void rtt_robot::updateHook(){
+
+  KDL::Wrench ft;
+  // check the reading is new data or old data;
+  if( port_msr_wrench.read( ft ) == RTT::NewData ){
+    std::cout << std::endl
+	      << "rtt_robot::updateHook: "
+	      << ft.force.x() << std::setw(15)
+	      << ft.force.y() << std::setw(15)
+	      << ft.force.z() << std::endl;
+  }
+
+  zero.send();
+  offset.send( ft );
+
+  KDL::JntArray q(6);
+  for(int i=0; i<6; i++){
+    q(i) = rand();
+  }
+  port_msr_joints.write(q);
+}
+
+void rtt_robot::stopHook(){
+  std::cout << "rtt_robot::stopHook" << std::endl;
+}
+
+void rtt_robot::cleanupHook(){
+  std::cout << "rtt_robot::cleanupHook" << std::endl;
+}
+
+ORO_CREATE_COMPONENT(rtt_robot)
+
+
+#+end_src
+*** rsp.ops
+#+BEGIN_SRC c++
+#import("rtt_ros")
+#import("rtt_rosnode")
+#import("rtt_roscomm")
+#import("rtt_std_msgs")
+#import("rtt_geometry_msgs")
+#import("rtt_sensor_msgs")
+import("kdl_typekit")
+
+import("rsp_week07")
+
+loadComponent( "robot", "rtt_robot" )
+setActivity( "robot", 1.0, 0, ORO_SCHED_OTHER )
+
+loadComponent( "sensor", "rtt_sensor" )
+setActivity( "sensor", 1.0, 0, ORO_SCHED_OTHER )
+
+
+var ConnPolicy cp
+connect( "robot.MsrWrench",  "sensor.MsrWrench",  cp )
+
+# stream("sensor.MsrWrench", ros.topic("/sensor/wrench"))
+# stream("robot.MsrJntPos",  ros.topic("/robot/joint_states"))
+# stream("robot.CmdCartPos", ros.topic("/robot/command"))
+
+sensor.configure()
+sensor.start()
+
+connectPeers("robot", "sensor");
+robot.configure();
+robot.start();
+#+END_SRC

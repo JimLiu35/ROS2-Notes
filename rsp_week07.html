@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2023-03-14 Tue 22:10 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="author" content="Huan Min" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+</head>
+<body>
+<div id="content" class="content">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org5a15a25">1. RSP Week 07 Lecture Notes</a>
+<ul>
+<li><a href="#orgde0e1b0">1.1. Alternative Way to Launch Ignition Gazebo</a></li>
+<li><a href="#org37452c3">1.2. Briding Data from Ign Gazebo to ROS</a></li>
+</ul>
+</li>
+<li><a href="#org6cba3a1">2. GAZEBO Plugin</a>
+<ul>
+<li><a href="#org287dc20">2.1. Useful documentation</a></li>
+<li><a href="#org625c7e5">2.2. Create Plugin</a></li>
+<li><a href="#orgdf3c6df">2.3. Template file for plugins</a>
+<ul>
+<li><a href="#orge774e2a">2.3.1. &lt;filename&gt;.hpp</a></li>
+<li><a href="#org5d41b92">2.3.2. &lt;filename&gt;.cpp</a></li>
+<li><a href="#org9fc0b3b">2.3.3. CMakeList.txt</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org7e34848">3. (Additional) C++ Pure Virtual Functions</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org5a15a25" class="outline-2">
+<h2 id="org5a15a25"><span class="section-number-2">1.</span> RSP Week 07 Lecture Notes</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orgde0e1b0" class="outline-3">
+<h3 id="orgde0e1b0"><span class="section-number-3">1.1.</span> Alternative Way to Launch Ignition Gazebo</h3>
+<div class="outline-text-3" id="text-1-1">
+<div class="org-src-container">
+<pre class="src src-sh">     ros2 launch ros_ign_gazebo ign_gazebo.launch.py ign_args:=<span style="color: #98be65;">"&lt;filename&gt; -v 4"</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>&lt;filename&gt;: The filename can be either .sdf or .world file.</li>
+<li>-v 4: Verbose setting. It will print extra information to the screen. Good for debuging.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org37452c3" class="outline-3">
+<h3 id="org37452c3"><span class="section-number-3">1.2.</span> Briding Data from Ign Gazebo to ROS</h3>
+<div class="outline-text-3" id="text-1-2">
+<div class="org-src-container">
+<pre class="src src-sh">     ros2 run ros_ign_bridge parameter_bridge &lt;TopicName&gt;@&lt;ROS_MSG_Type&gt;<span style="color: #51afef;">[</span>&lt;GAZEBO_MSG_TYPE&gt;
+</pre>
+</div>
+<p>
+e.g.
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">     ros2 run ros_ign_bridge parameter_bridge /image@sensor_msgs/msg/Image<span style="color: #51afef;">[</span>ignition.msgs.Image
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org6cba3a1" class="outline-2">
+<h2 id="org6cba3a1"><span class="section-number-2">2.</span> GAZEBO Plugin</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org287dc20" class="outline-3">
+<h3 id="org287dc20"><span class="section-number-3">2.1.</span> Useful documentation</h3>
+<div class="outline-text-3" id="text-2-1">
+<ol class="org-ol">
+<li><a href="https://gazebosim.org/api/gazebo/2.10/createsystemplugins.html">Gazebo Create System Plugin</a></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org625c7e5" class="outline-3">
+<h3 id="org625c7e5"><span class="section-number-3">2.2.</span> Create Plugin</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+To create a plugin, a C++ class is needed. This C++ class needs to be derived from the following classes.
+</p>
+<ol class="org-ol">
+<li><a href="https://gazebosim.org/api/gazebo/2.10/classignition_1_1gazebo_1_1System.html">System</a> class from Ignition Gazebo. This class only has empty constructor and descructor, but it must be presented for Gazebo to be successfully initiated!</li>
+<li><a href="https://gazebosim.org/api/gazebo/2.10/classignition_1_1gazebo_1_1ISystemConfigure.html">ISystemConfigure</a> class is to prepare your customized plugins. For example, you might want to give it some parameters or tags.</li>
+<li>Either of (or all of) the following class.
+<ul class="org-ul">
+<li><a href="https://gazebosim.org/api/gazebo/2.10/classignition_1_1gazebo_1_1ISystemPreUpdate.html">ISystemPreUpdate</a></li>
+<li><a href="https://gazebosim.org/api/gazebo/2.10/classignition_1_1gazebo_1_1ISystemUpdate.html">ISystemUpdate</a></li>
+<li><a href="https://gazebosim.org/api/gazebo/2.10/classignition_1_1gazebo_1_1ISystemPostUpdate.html">ISystemPostUpdate</a></li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgdf3c6df" class="outline-3">
+<h3 id="orgdf3c6df"><span class="section-number-3">2.3.</span> Template file for plugins</h3>
+<div class="outline-text-3" id="text-2-3">
+</div>
+<div id="outline-container-orge774e2a" class="outline-4">
+<h4 id="orge774e2a"><span class="section-number-4">2.3.1.</span> &lt;filename&gt;.hpp</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<div class="org-src-container">
+<pre class="src src-cpp"><span style="color: #51afef; font-weight: bold;">      #include</span> <span style="color: #98be65;">&lt;ignition/gazebo/System.hh&gt;</span>
+
+      <span style="color: #51afef;">using</span> <span style="color: #a9a1e1;">ignition</span>::<span style="color: #a9a1e1;">gazebo</span>;
+      <span style="color: #51afef;">class</span> &lt;<span style="color: #ECBE7B;">className</span>&gt;:
+    <span style="color: #51afef;">public</span> <span style="color: #ECBE7B;">System</span>,
+    <span style="color: #51afef;">public</span> <span style="color: #ECBE7B;">ISystemConfigure</span>,
+    <span style="color: #51afef;">public</span> <span style="color: #ECBE7B;">ISystemPreUpdate</span>,
+    <span style="color: #51afef;">public</span> <span style="color: #ECBE7B;">ISystemUpdate</span>,
+    <span style="color: #51afef;">public</span> <span style="color: #ECBE7B;">ISystemPostUpdate</span> {
+      <span style="color: #51afef;">public</span>:
+    &lt;<span style="color: #ECBE7B;">className</span>&gt;();
+    ~&lt;<span style="color: #ECBE7B;">className</span>&gt;();
+
+    <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">Configure</span>( <span style="color: #51afef;">const</span> <span style="color: #ECBE7B;">Entity</span>&amp; <span style="color: #dcaeea;">entity</span>,
+            <span style="color: #51afef;">const</span> <span style="color: #a9a1e1;">std</span>::<span style="color: #ECBE7B;">shared</span>&lt; <span style="color: #51afef;">const</span> <span style="color: #a9a1e1;">sdf</span>::<span style="color: #ECBE7B;">Element</span>&gt;&amp; <span style="color: #dcaeea;">sdf</span>,
+            <span style="color: #ECBE7B;">EntityComponentManager</span>&amp; <span style="color: #dcaeea;">ecm</span>,
+            <span style="color: #ECBE7B;">EventManager</span>&amp; <span style="color: #dcaeea;">eventmgr</span> ) <span style="color: #51afef;">override</span>;
+
+    <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">PreUpdate</span>( <span style="color: #51afef;">const</span> <span style="color: #ECBE7B;">UpdateInfo</span>&amp; <span style="color: #dcaeea;">info</span>,
+            <span style="color: #ECBE7B;">EntityComponentManager</span>&amp; <span style="color: #dcaeea;">ecm</span> ) <span style="color: #51afef;">override</span>;
+
+    <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">Update</span>( <span style="color: #51afef;">const</span> <span style="color: #ECBE7B;">UpdateInfo</span>&amp; <span style="color: #dcaeea;">info</span>,
+             <span style="color: #ECBE7B;">EntityComponentManager</span>&amp; <span style="color: #dcaeea;">ecm</span> ) <span style="color: #51afef;">override</span>;
+
+    <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">PostUpdate</span>( <span style="color: #51afef;">const</span> <span style="color: #ECBE7B;">UpdateInfo</span>&amp; <span style="color: #dcaeea;">info</span>,
+             <span style="color: #51afef;">const</span> <span style="color: #ECBE7B;">EntityComponentManager</span>&amp; <span style="color: #dcaeea;">ecm</span> ) <span style="color: #51afef;">override</span>;
+
+      };
+</pre>
+</div>
+<p>
+Code Explanation:
+</p>
+<ol class="org-ol">
+<li>entity:</li>
+<li>sdf:</li>
+<li>eventmgr:</li>
+<li>override:</li>
+<li>PostUpdate -const ecm-:
+The reason why there is a const in front of the EntityComponentManager is that during the post update stage, the simulation is already complete and there is no reason to change the result. In other words, users only need to read the results rather than modify them.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org5d41b92" class="outline-4">
+<h4 id="org5d41b92"><span class="section-number-4">2.3.2.</span> &lt;filename&gt;.cpp</h4>
+<div class="outline-text-4" id="text-2-3-2">
+<div class="org-src-container">
+<pre class="src src-cpp"><span style="color: #51afef; font-weight: bold;">      #include</span> <span style="color: #98be65;">&lt;filename.hpp&gt;</span>
+<span style="color: #51afef; font-weight: bold;">      #include</span> <span style="color: #98be65;">&lt;ignition/plugin/register.hh&gt;</span>
+
+      &lt;className&gt;::&lt;className&gt;(){}
+      &lt;className&gt;::~&lt;className&gt;(){}
+      <span style="color: #ECBE7B;">void</span> &lt;className&gt;::configure( <span style="color: #51afef;">const</span> <span style="color: #ECBE7B;">entity</span>&amp; <span style="color: #dcaeea;">entity</span>,
+                   <span style="color: #51afef;">const</span> <span style="color: #a9a1e1;">std</span>::<span style="color: #ECBE7B;">shared</span>&lt; <span style="color: #51afef;">const</span> <span style="color: #a9a1e1;">sdf</span>::<span style="color: #ECBE7B;">element</span>&gt;&amp; <span style="color: #dcaeea;">sdf</span>,
+                   <span style="color: #ECBE7B;">entitycomponentmanager</span>&amp; <span style="color: #dcaeea;">ecm</span>,
+                   <span style="color: #ECBE7B;">eventmanager</span>&amp; <span style="color: #dcaeea;">eventmgr</span> ){
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">Coding here</span>
+      }
+      <span style="color: #ECBE7B;">void</span> &lt;className&gt;::PreUpdate( <span style="color: #51afef;">const</span> <span style="color: #ECBE7B;">UpdateInfo</span>&amp; <span style="color: #dcaeea;">info</span>,
+                   <span style="color: #ECBE7B;">EntityComponentManager</span>&amp; <span style="color: #dcaeea;">ecm</span> ){
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">Coding here</span>
+      }
+
+      <span style="color: #ECBE7B;">void</span> &lt;className&gt;::Update( <span style="color: #51afef;">const</span> <span style="color: #ECBE7B;">UpdateInfo</span>&amp; <span style="color: #dcaeea;">info</span>,
+                <span style="color: #ECBE7B;">EntityComponentManager</span>&amp; <span style="color: #dcaeea;">ecm</span> ){
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">Coding here</span>
+      }
+
+      <span style="color: #ECBE7B;">void</span> &lt;className&gt;::PostUpdate( <span style="color: #51afef;">const</span> <span style="color: #ECBE7B;">UpdateInfo</span>&amp; <span style="color: #dcaeea;">info</span>,
+                    <span style="color: #51afef;">const</span> <span style="color: #ECBE7B;">EntityComponentManager</span>&amp; <span style="color: #dcaeea;">ecm</span> ){
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">Coding here</span>
+      }
+
+      IGNITION_ADD_PLUGIN( &lt;className&gt;,
+               System,
+               &lt;className&gt;::ISystemConfigure,
+               &lt;className&gt;::ISystemPreUpdate,
+               &lt;className&gt;::ISystemUpdate,
+               &lt;className&gt;::ISystemPostUpdate )
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9fc0b3b" class="outline-4">
+<h4 id="org9fc0b3b"><span class="section-number-4">2.3.3.</span> CMakeList.txt</h4>
+<div class="outline-text-4" id="text-2-3-3">
+<p>
+The following code goes into the CMakeList.txt file.
+</p>
+<div class="org-src-container">
+<pre class="src src-c">      <span style="color: #c678dd;">find_package</span>(ignition-cmake2 REQUIRED)
+      <span style="color: #c678dd;">ign_find_package</span>( ignition-plugin1 REQUIRED COMPONENT <span style="color: #51afef;">register</span> )
+      <span style="color: #c678dd;">ign_find_package</span>( ignition-gazebo6 REQUIRED )
+
+      <span style="color: #c678dd;">set</span>( IGN_PLUGIN_VER ${ignition_plugin1_VERSION_MAJOR} )
+      <span style="color: #c678dd;">set</span>( IGN_GAZEBO_VER ${ignition_gazebo6_VERSION_MAJOR} )
+
+      <span style="color: #c678dd;">include_directories</span>( include )
+      add_library( &lt;pluginName&gt; SHARED src/&lt;pluginName&gt;.cpp )
+      target_link_libraries( &lt;pluginName&gt; 
+    PRIVATE ignition-plugin${IGN_PLUGIN_VER}::ignition-plugin${IGN_PLUGIN_VER}
+    <span style="color: #ECBE7B;">PRIVATE</span> <span style="color: #dcaeea;">ignition</span>-gazebo${IGN_GAZEBO_VER}::ignition-gazebo${IGN_GAZEBO_VER} )
+
+
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org7e34848" class="outline-2">
+<h2 id="org7e34848"><span class="section-number-2">3.</span> (Additional) C++ Pure Virtual Functions</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+<a href="">Coming Soon.</a>..
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c">
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Huan Min</p>
+<p class="date">Created: 2023-03-14 Tue 22:10</p>
+</div>
+</body>
+</html>
