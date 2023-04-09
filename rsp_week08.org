@@ -33,7 +33,7 @@ source install/setup.bash
 3) Build the rest
 
 #+BEGIN_SRC c++
-colcon build
+colcon build --exectutor sequential
 #+END_SRC
 
 
@@ -42,7 +42,7 @@ colcon build
 a) Download and extract Reflexxes in some directory, say:
 
 
-#+BEGIN_SRC c++
+#+BEGIN_SRC shell
 mkdir -p ~/src/reflexxes
 unzip ~/Downloads/ReflexxesTypeII.zip -d ~/src/reflexxes/
 cd ~/src/reflexxes/ReflexxesTypeII/Linux
@@ -52,7 +52,7 @@ Visit Manage Class to disable runnable code snippets
 
 b) Patch makefile and run Make
 
-#+BEGIN_SRC c++
+#+BEGIN_SRC shell
 sed -i s/ddb/gdb/ Makefile.global
 make all64
 #+END_SRC
@@ -114,6 +114,8 @@ rtt_sensor::rtt_sensor( const std::string& name ) :
 
   addPort("MsrWrench", port_msr_wrench).doc("Measured wrench");
 
+  // Add the method objects to the method interface:
+  // we wish to add 3 functions to the method interface: reset, getName and changeParameter
   addOperation("Zero", &rtt_sensor::zero, this,RTT::OwnThread);
   addOperation("GetWrench", &rtt_sensor::getWrench, this, RTT::OwnThread );
   addOperation("SetOffset", &rtt_sensor::setOffset, this, RTT::OwnThread );
@@ -122,24 +124,38 @@ rtt_sensor::rtt_sensor( const std::string& name ) :
 
 }
 
+    /**
+    ,* This function is for the configuration code.
+    ,* Return false to abort configuration.
+    ,*/
 bool rtt_sensor::configureHook(){
   std::cout << "rtt_sensor::configureHook" << std::endl;
   return true;
 }
-
+    /**
+    ,* This function is for the application's start up code.
+    ,* Return false to abort start up.
+    ,*/
 bool rtt_sensor::startHook(){
   std::cout << "rtt_sensor::startHook" << std::endl;
   return true;
 }
-
+    /**
+    ,* This function is called by the Execution Engine.
+    ,*/
 void rtt_sensor::stopHook(){
   std::cout << "rtt_sensor::stopHook" << std::endl;
 }
+    /**
+    ,* This function is called when the task is stopped.
+    ,*/
 
 void rtt_sensor::cleanupHook(){
   std::cout << "rtt_sensor::cleanupHook" << std::endl;
 }
-
+    /**
+    ,* This function is periodically called.
+    ,*/
 void rtt_sensor::updateHook(){
 
   //std::cout << "rtt_sensor::updatHook" << std::endl;
@@ -231,10 +247,12 @@ deployer -s src/rsp/rsp_week07/scripts/sensor.ops
 class rtt_robot : public RTT::TaskContext {
 
 private:
-
+    //Setting up the Data Flow Interface
+   // Input port: We'll let this one wake up our thread
   RTT::InputPort<KDL::Wrench> port_msr_wrench;
+  // Output ports are allways 'send and forget'
   RTT::OutputPort<KDL::JntArray> port_msr_joints;
-
+    //The OperationCaller/Operation Interface
   RTT::OperationCaller<void(void)> zero;
   RTT::OperationCaller<void(const KDL::Wrench&)> offset;
 
@@ -263,6 +281,7 @@ rtt_robot::rtt_robot( const std::string& name ) :
 
   std::cout << "rtt_robot::rtt_robot" << std::endl;
 
+ // These ports do not wake up our task
   addPort("MsrWrench", port_msr_wrench ).doc("Measured wrench");
   addPort("MsrJntPos", port_msr_joints ).doc("Measured joint positions");
   // publish the measurement
@@ -295,7 +314,7 @@ bool rtt_robot::startHook(){
 void rtt_robot::updateHook(){
 
   KDL::Wrench ft;
-  // check the reading is new data or old data;
+  //only write if new data arrived.
   if( port_msr_wrench.read( ft ) == RTT::NewData ){
     std::cout << std::endl
 	      << "rtt_robot::updateHook: "
@@ -311,6 +330,8 @@ void rtt_robot::updateHook(){
   for(int i=0; i<6; i++){
     q(i) = rand();
   }
+  // Guaranteeing Real-Time data flow
+  // hard real-time.
   port_msr_joints.write(q);
 }
 
@@ -359,3 +380,5 @@ connectPeers("robot", "sensor");
 robot.configure();
 robot.start();
 #+END_SRC
+[[https://docs.orocos.org/rtt/orocos-task-context.html#introduction][Orocos_tutorial
+]]

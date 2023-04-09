@@ -1,0 +1,682 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2023-04-08 Sat 22:35 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>/Rsp_week09/</title>
+<meta name="author" content="Huan Min" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title"><i>Rsp<sub>week09</sub></i></h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orge246770">1. environment configuration</a>
+<ul>
+<li><a href="#orgb72fd2a">1.1. update <code>robot.hpp</code></a></li>
+<li><a href="#org62260a9">1.2. update <code>robot.cpp</code></a></li>
+<li><a href="#org90b6b0b">1.3. update <code>rtt_robot.ops</code></a></li>
+<li><a href="#org673b3bb">1.4. Reflexxes api</a></li>
+<li><a href="#org77d47b0">1.5. Create an Ros node</a></li>
+<li><a href="#orgfd726b6">1.6. Create an ROS Param</a></li>
+<li><a href="#org812c145">1.7. Plugin the urdf into Orocos</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orge246770" class="outline-2">
+<h2 id="orge246770"><span class="section-number-2">1.</span> environment configuration</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+<b><b>alias/command to help with environment varialbe being too long</b></b>
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #ECBE7B;">echo</span> $<span style="color: #dcaeea;">RTT_COMPONENT_PATH</span>
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">change the colcon prefix</span>
+<span style="color: #c678dd;">export</span> <span style="color: #dcaeea;">COLCON_PREFIX_PATH</span>=/home/huan/test_ws/install
+
+</pre>
+</div>
+<p>
+copied/pasted in your <code>.bashrc</code> file below. After that you can set the variable by typing <code>"rsp_rtt"</code>
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #c678dd;">alias</span> <span style="color: #dcaeea;">rsp_rtt</span>=<span style="color: #98be65;">'export RTT_COMPONENT_PATH=$COLCON_PREFIX_PATH/kdl_typekit/lib/orocos:$COLCON_PREFIX_PATH/orocos_toolchain/lib/orocos:$COLCON_PREFIX_PATH/rtt_ros2_builtin_interfaces/lib/orocos:$COLCON_PREFIX_PATH/rtt_ros2_geometry_msgs/lib/orocos:$COLCON_PREFIX_PATH/rtt_ros2_interfaces/lib/orocos:$COLCON_PREFIX_PATH/rtt_ros2/lib/orocos:$COLCON_PREFIX_PATH/rtt_ros2_node/lib/orocos:$COLCON_PREFIX_PATH/rtt_ros2_params/lib/orocos:$COLCON_PREFIX_PATH/rtt_ros2_primitives_typekit/lib/orocos:$COLCON_PREFIX_PATH/rtt_ros2_rclcpp_typekit/lib/orocos:$COLCON_PREFIX_PATH/rtt_ros2_std_msgs/lib/orocos:$COLCON_PREFIX_PATH/rtt_ros2_topics/lib/orocos:$COLCON_PREFIX_PATH/rsp_week07/lib/orocos'</span>
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgb72fd2a" class="outline-3">
+<h3 id="orgb72fd2a"><span class="section-number-3">1.1.</span> update <code>robot.hpp</code></h3>
+<div class="outline-text-3" id="text-1-1">
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">&lt;ReflexxesAPI.h&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">&lt;RMLPositionFlags.h&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">&lt;RMLPositionInputParameters.h&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">&lt;RMLPositionOutputParameters.h&gt;</span>
+
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">&lt;rtt/TaskContext.hpp&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">&lt;rtt/InputPort.hpp&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">&lt;rtt/OutputPort.hpp&gt;</span>
+
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">&lt;kdl/chainfksolverpos_recursive.hpp&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">&lt;kdl_parser/kdl_parser.hpp&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">&lt;kdl/frames.hpp&gt;</span>
+
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">&lt;rtt_ros2_params/rtt_ros2_params.hpp&gt;</span>
+
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">&lt;geometry_msgs/msg/pose_stamped.hpp&gt;</span>
+
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">&lt;kdl/frames.hpp&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">&lt;kdl/jntarray.hpp&gt;</span>
+
+<span style="color: #51afef;">class</span> <span style="color: #ECBE7B;">rtt_robot</span> : <span style="color: #51afef;">public</span> <span style="color: #a9a1e1;">RTT</span>::<span style="color: #ECBE7B;">TaskContext</span> {
+
+<span style="color: #51afef;">private</span>:
+
+  <span style="color: #a9a1e1;">RTT</span>::<span style="color: #ECBE7B;">InputPort</span>&lt;<span style="color: #a9a1e1;">KDL</span>::Wrench&gt; <span style="color: #dcaeea;">port_msr_wrench</span>;
+  <span style="color: #a9a1e1;">RTT</span>::<span style="color: #ECBE7B;">OutputPort</span>&lt;<span style="color: #a9a1e1;">KDL</span>::JntArray&gt; <span style="color: #dcaeea;">port_msr_joints</span>;
+  <span style="color: #a9a1e1;">RTT</span>::<span style="color: #ECBE7B;">OutputPort</span>&lt;<span style="color: #a9a1e1;">geometry_msgs</span>::<span style="color: #a9a1e1;">msg</span>::PoseStamped&gt; <span style="color: #dcaeea;">port_msr_pose</span>;
+
+  <span style="color: #a9a1e1;">RTT</span>::<span style="color: #ECBE7B;">OperationCaller</span>&lt;<span style="color: #ECBE7B;">void</span>(<span style="color: #ECBE7B;">void</span>)&gt; <span style="color: #dcaeea;">zero</span>;
+  <span style="color: #a9a1e1;">RTT</span>::<span style="color: #ECBE7B;">OperationCaller</span>&lt;<span style="color: #ECBE7B;">void</span>(<span style="color: #51afef;">const</span> <span style="color: #a9a1e1;">KDL</span>::<span style="color: #ECBE7B;">Wrench</span>&amp;)&gt; <span style="color: #dcaeea;">offset</span>;
+
+  <span style="color: #5B6268;">//</span><span style="color: #5B6268;">size_t N;</span>
+  <span style="color: #ECBE7B;">ReflexxesAPI</span>* <span style="color: #dcaeea;">rml</span>;
+  <span style="color: #ECBE7B;">RMLPositionInputParameters</span>* <span style="color: #dcaeea;">ip</span>;
+  <span style="color: #ECBE7B;">RMLPositionOutputParameters</span>* <span style="color: #dcaeea;">op</span>;
+  <span style="color: #ECBE7B;">RMLPositionFlags</span> <span style="color: #dcaeea;">flags</span>;
+
+  <span style="color: #a9a1e1;">RTT</span>::<span style="color: #a9a1e1;">Service</span>::<span style="color: #ECBE7B;">shared_ptr</span> <span style="color: #dcaeea;">global_ros</span>;
+  <span style="color: #a9a1e1;">RTT</span>::<span style="color: #a9a1e1;">Service</span>::<span style="color: #ECBE7B;">shared_ptr</span> <span style="color: #dcaeea;">global_params</span>;
+  <span style="color: #a9a1e1;">RTT</span>::<span style="color: #ECBE7B;">OperationCaller</span>&lt;<span style="color: #a9a1e1;">rclcpp</span>::ParameterValue(<span style="color: #a9a1e1;">std</span>::string)&gt; <span style="color: #dcaeea;">getparam_operation</span>;
+
+  <span style="color: #a9a1e1;">KDL</span>::<span style="color: #ECBE7B;">Chain</span> <span style="color: #dcaeea;">chain</span>;
+  <span style="color: #a9a1e1;">KDL</span>::<span style="color: #ECBE7B;">ChainFkSolverPos_recursive</span>* <span style="color: #dcaeea;">fk_solver</span>;
+
+<span style="color: #51afef;">public</span>:
+
+  <span style="color: #c678dd;">rtt_robot</span>( <span style="color: #51afef;">const</span> <span style="color: #a9a1e1;">std</span>::<span style="color: #ECBE7B;">string</span>&amp; <span style="color: #dcaeea;">name</span> );
+  ~<span style="color: #c678dd;">rtt_robot</span>();
+
+  <span style="color: #51afef;">virtual</span> <span style="color: #ECBE7B;">bool</span> <span style="color: #c678dd;">configureHook</span>();
+  <span style="color: #51afef;">virtual</span> <span style="color: #ECBE7B;">bool</span> <span style="color: #c678dd;">startHook</span>();
+
+  <span style="color: #51afef;">virtual</span> <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">updateHook</span>();
+
+  <span style="color: #51afef;">virtual</span> <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">stopHook</span>();
+  <span style="color: #51afef;">virtual</span> <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">cleanupHook</span>();
+
+};
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org62260a9" class="outline-3">
+<h3 id="org62260a9"><span class="section-number-3">1.2.</span> update <code>robot.cpp</code></h3>
+<div class="outline-text-3" id="text-1-2">
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">&lt;rsp_week07/rtt_robot.hpp&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">&lt;iomanip&gt;</span>
+
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">&lt;rtt/internal/GlobalService.hpp&gt;</span>
+
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">&lt;rtt_ros2/rtt_ros2.hpp&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">&lt;rtt_ros2_node/rtt_ros2_node.hpp&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">&lt;rtt_ros2_params/rtt_ros2_params.hpp&gt;</span>
+
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">&lt;tf2_kdl/tf2_kdl.h&gt;</span>
+
+
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">&lt;rtt/Component.hpp&gt;</span>
+
+<span style="color: #a9a1e1;">rtt_robot</span>::<span style="color: #c678dd;">rtt_robot</span>( <span style="color: #51afef;">const</span> <span style="color: #a9a1e1;">std</span>::<span style="color: #ECBE7B;">string</span>&amp; <span style="color: #dcaeea;">name</span> ) :
+  TaskContext(name),
+  <span style="color: #5B6268;">//</span><span style="color: #5B6268;">foward kinematics solver</span>
+  fk_solver(<span style="color: #a9a1e1;">NULL</span>){
+
+  <span style="color: #a9a1e1;">std</span>::cout &lt;&lt; <span style="color: #98be65;">"rtt_robot::rtt_robot"</span> &lt;&lt; <span style="color: #a9a1e1;">std</span>::endl;
+  <span style="color: #5B6268;">// </span><span style="color: #5B6268;">Data flow ports</span>
+  addPort(<span style="color: #98be65;">"MsrWrench"</span>, port_msr_wrench ).doc(<span style="color: #98be65;">"Measured wrench"</span>);
+  addPort(<span style="color: #98be65;">"MsrJntPos"</span>, port_msr_joints ).doc(<span style="color: #98be65;">"Measured joint positions"</span>);
+  addPort(<span style="color: #98be65;">"MsrCartPose"</span>, port_msr_pose ).doc(<span style="color: #98be65;">"Measured Cartesian position"</span>);
+
+  global_ros = <span style="color: #a9a1e1;">RTT</span>::<span style="color: #a9a1e1;">internal</span>::<span style="color: #a9a1e1;">GlobalService</span>::Instance()-&gt;getService(<span style="color: #98be65;">"ros"</span>);
+  <span style="color: #a9a1e1;">RTT</span>::<span style="color: #ECBE7B;">OperationCaller</span>&lt;<span style="color: #ECBE7B;">bool</span>(<span style="color: #51afef;">const</span> <span style="color: #a9a1e1;">std</span>::<span style="color: #ECBE7B;">string</span>&amp;)&gt; <span style="color: #dcaeea;">create_node</span> =
+    global_ros-&gt;getOperation(<span style="color: #98be65;">"create_named_node"</span>);
+  create_node.ready();
+  create_node(name);
+
+  global_params = global_ros-&gt;getService(<span style="color: #98be65;">"rosparam"</span>);
+  getparam_operation = global_params-&gt;getOperation(<span style="color: #98be65;">"getParameter"</span>);
+
+  <span style="color: #a9a1e1;">rtt_ros2_node</span>::getNode(<span style="color: #51afef;">this</span>)-&gt;declare_parameter(<span style="color: #98be65;">"robot_description"</span>,
+                                                  <span style="color: #a9a1e1;">std</span>::string(<span style="color: #98be65;">"asdf"</span>));
+
+}
+
+<span style="color: #a9a1e1;">rtt_robot</span>::~<span style="color: #c678dd;">rtt_robot</span>(){
+  <span style="color: #51afef;">if</span>(rml) <span style="color: #51afef;">delete</span> rml;
+  <span style="color: #51afef;">if</span> (ip) <span style="color: #51afef;">delete</span> ip;
+  <span style="color: #51afef;">if</span> (op) <span style="color: #51afef;">delete</span> op;
+  <span style="color: #51afef;">if</span> (fk_solver) <span style="color: #51afef;">delete</span> fk_solver;
+}
+
+<span style="color: #ECBE7B;">bool</span> <span style="color: #a9a1e1;">rtt_robot</span>::<span style="color: #c678dd;">configureHook</span>(){
+
+  <span style="color: #a9a1e1;">std</span>::cout &lt;&lt; <span style="color: #98be65;">"rtt_robot::configureHook"</span> &lt;&lt; <span style="color: #a9a1e1;">std</span>::endl;
+
+  <span style="color: #a9a1e1;">std</span>::<span style="color: #ECBE7B;">vector</span>&lt;<span style="color: #a9a1e1;">std</span>::<span style="color: #ECBE7B;">string</span>&gt; <span style="color: #dcaeea;">peer_list</span> = getPeerList();
+  <span style="color: #51afef;">for</span>(<span style="color: #ECBE7B;">size_t</span> <span style="color: #dcaeea;">i</span>=<span style="color: #da8548; font-weight: bold;">0</span>; i&lt;peer_list.size(); i++ ){
+    <span style="color: #a9a1e1;">std</span>::cout &lt;&lt; <span style="color: #98be65;">"Peer "</span> &lt;&lt; i &lt;&lt; <span style="color: #98be65;">" "</span> &lt;&lt; peer_list[i] &lt;&lt; <span style="color: #a9a1e1;">std</span>::endl;
+    <span style="color: #51afef;">if</span>( peer_list[i] == <span style="color: #98be65;">"sensor"</span> ){
+      zero = getPeer(peer_list[i])-&gt;getOperation(<span style="color: #98be65;">"Zero"</span>);
+      offset = getPeer(peer_list[i])-&gt;getOperation(<span style="color: #98be65;">"SetOffset"</span>);
+    }
+  }
+
+  <span style="color: #a9a1e1;">rclcpp</span>::<span style="color: #ECBE7B;">ParameterValue</span> <span style="color: #dcaeea;">new_string</span> = getparam_operation.call(<span style="color: #98be65;">"robot_description"</span>);
+
+  <span style="color: #a9a1e1;">std</span>::<span style="color: #ECBE7B;">string</span> <span style="color: #dcaeea;">robot_description</span> = new_string.get&lt;<span style="color: #a9a1e1;">std</span>::<span style="color: #ECBE7B;">string</span>&gt;();
+
+  <span style="color: #a9a1e1;">RTT</span>::log().setLogLevel( <span style="color: #a9a1e1;">RTT</span>::<span style="color: #a9a1e1;">Logger</span>::Info );
+
+  <span style="color: #a9a1e1;">KDL</span>::<span style="color: #ECBE7B;">Tree</span> <span style="color: #dcaeea;">tree</span>;
+  <span style="color: #51afef;">if</span>( <span style="color: #a9a1e1;">kdl_parser</span>::treeFromString( robot_description, tree)){
+    <span style="color: #a9a1e1;">RTT</span>::log(<span style="color: #a9a1e1;">RTT</span>::Info) &lt;&lt; <span style="color: #98be65;">"Description parsed to a tree"</span> &lt;&lt; <span style="color: #a9a1e1;">RTT</span>::endlog();
+    <span style="color: #51afef;">if</span>( tree.getChain(<span style="color: #98be65;">"world"</span>, <span style="color: #98be65;">"left_tool"</span>, chain)){
+      fk_solver = <span style="color: #51afef;">new</span> <span style="color: #a9a1e1;">KDL</span>::<span style="color: #ECBE7B;">ChainFkSolverPos_recursive</span>(chain);
+    }
+    <span style="color: #51afef;">else</span>{
+      <span style="color: #a9a1e1;">RTT</span>::log(<span style="color: #a9a1e1;">RTT</span>::Error) &lt;&lt; <span style="color: #98be65;">"Failed to parse chain between world and link"</span>
+                           &lt;&lt; <span style="color: #a9a1e1;">RTT</span>::endlog();
+    }
+  }
+  <span style="color: #51afef;">else</span>{
+    <span style="color: #a9a1e1;">RTT</span>::log(<span style="color: #a9a1e1;">RTT</span>::Error) &lt;&lt; <span style="color: #98be65;">"Failed to parse tree"</span> &lt;&lt; <span style="color: #a9a1e1;">RTT</span>::endlog();
+  }
+  <span style="color: #a9a1e1;">RTT</span>::log(<span style="color: #a9a1e1;">RTT</span>::Info) &lt;&lt; <span style="color: #98be65;">"Description parsed to a chain"</span> &lt;&lt; <span style="color: #a9a1e1;">RTT</span>::endlog();
+
+  rml = <span style="color: #51afef;">new</span> <span style="color: #ECBE7B;">ReflexxesAPI</span>( chain.getNrOfJoints(), getPeriod() );
+  ip = <span style="color: #51afef;">new</span> <span style="color: #ECBE7B;">RMLPositionInputParameters</span>( chain.getNrOfJoints() );
+  op = <span style="color: #51afef;">new</span> <span style="color: #ECBE7B;">RMLPositionOutputParameters</span>( chain.getNrOfJoints() );
+
+  <span style="color: #51afef;">return</span> <span style="color: #a9a1e1;">true</span>;
+}
+
+<span style="color: #ECBE7B;">bool</span> <span style="color: #a9a1e1;">rtt_robot</span>::<span style="color: #c678dd;">startHook</span>(){
+  <span style="color: #a9a1e1;">std</span>::cout &lt;&lt; <span style="color: #98be65;">"rtt_robot::startHook"</span> &lt;&lt; <span style="color: #a9a1e1;">std</span>::endl;
+
+  <span style="color: #51afef;">for</span>( <span style="color: #ECBE7B;">size_t</span> <span style="color: #dcaeea;">i</span>=<span style="color: #da8548; font-weight: bold;">0</span>; i&lt;chain.getNrOfJoints(); i++ ){
+
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">current state of the robot</span>
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">In reality you need to querry the real robot to get these</span>
+    ip-&gt;CurrentPositionVector-&gt;VecData[i] = <span style="color: #da8548; font-weight: bold;">0.0</span>;
+    ip-&gt;CurrentVelocityVector-&gt;VecData[i] = <span style="color: #da8548; font-weight: bold;">0.0</span>;
+    ip-&gt;CurrentAccelerationVector-&gt;VecData[i] = <span style="color: #da8548; font-weight: bold;">0.0</span>;
+
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">robot limits</span>
+    <span style="color: #5B6268;">// </span><span style="color: #5B6268;">These should come from a config file</span>
+    ip-&gt;MaxVelocityVector-&gt;VecData[i] = <span style="color: #da8548; font-weight: bold;">1.0</span>;
+    ip-&gt;MaxAccelerationVector-&gt;VecData[i] = <span style="color: #da8548; font-weight: bold;">1.0</span>;
+    ip-&gt;MaxJerkVector-&gt;VecData[i] = <span style="color: #da8548; font-weight: bold;">10.0</span>;
+
+    ip-&gt;SelectionVector-&gt;VecData[i] = <span style="color: #a9a1e1;">true</span>;
+
+  }
+
+  <span style="color: #5B6268;">// </span><span style="color: #5B6268;">These are goal position/velocities</span>
+  <span style="color: #5B6268;">// </span><span style="color: #5B6268;">This has no business here and should come from an operation/port</span>
+  ip-&gt;TargetPositionVector-&gt;VecData[<span style="color: #da8548; font-weight: bold;">0</span>] = <span style="color: #da8548; font-weight: bold;">1.0</span>;
+  ip-&gt;TargetPositionVector-&gt;VecData[<span style="color: #da8548; font-weight: bold;">1</span>] = <span style="color: #da8548; font-weight: bold;">3.0</span>;
+  ip-&gt;TargetVelocityVector-&gt;VecData[<span style="color: #da8548; font-weight: bold;">0</span>] = <span style="color: #da8548; font-weight: bold;">0.0</span>;
+  ip-&gt;TargetVelocityVector-&gt;VecData[<span style="color: #da8548; font-weight: bold;">1</span>] = <span style="color: #da8548; font-weight: bold;">0.0</span>;
+
+  <span style="color: #51afef;">return</span> <span style="color: #a9a1e1;">true</span>;
+}
+
+<span style="color: #ECBE7B;">void</span> <span style="color: #a9a1e1;">rtt_robot</span>::<span style="color: #c678dd;">updateHook</span>(){
+
+  <span style="color: #a9a1e1;">KDL</span>::<span style="color: #ECBE7B;">Wrench</span> <span style="color: #dcaeea;">ft</span>;
+  <span style="color: #51afef;">if</span>( port_msr_wrench.read( ft ) == <span style="color: #a9a1e1;">RTT</span>::NewData ){
+    <span style="color: #5B6268;">/*</span>
+<span style="color: #5B6268;">      std::cout &lt;&lt; std::endl</span>
+<span style="color: #5B6268;">      &lt;&lt; "rtt_robot::updateHook: "</span>
+<span style="color: #5B6268;">      &lt;&lt; ft.force.x() &lt;&lt; std::setw(15)</span>
+<span style="color: #5B6268;">      &lt;&lt; ft.force.y() &lt;&lt; std::setw(15)</span>
+<span style="color: #5B6268;">      &lt;&lt; ft.force.z() &lt;&lt; std::endl;</span>
+<span style="color: #5B6268;">    */</span>
+  }
+
+  <span style="color: #5B6268;">// </span><span style="color: #5B6268;">mess with the FT sensor</span>
+  zero.send();
+  offset.send( ft );
+
+  <span style="color: #5B6268;">// </span><span style="color: #5B6268;">Interpolate the next trajectory point</span>
+  <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">result</span> = rml-&gt;RMLPosition( *ip, op, flags );
+
+  <span style="color: #5B6268;">// </span><span style="color: #5B6268;">Update the current state to be the state</span>
+  <span style="color: #5B6268;">// </span><span style="color: #5B6268;">This assume that the positions/velocities/accelerations</span>
+  <span style="color: #5B6268;">// </span><span style="color: #5B6268;">are sent to the real robot _and_ that the real robot</span>
+  <span style="color: #5B6268;">// </span><span style="color: #5B6268;">will move to that position. Otherwise, the current state</span>
+  <span style="color: #5B6268;">// </span><span style="color: #5B6268;">should be obtained from the real roboto</span>
+  *ip-&gt;CurrentPositionVector = *op-&gt;NewPositionVector;
+  *ip-&gt;CurrentVelocityVector = *op-&gt;NewVelocityVector;
+  *ip-&gt;CurrentAccelerationVector = *op-&gt;NewAccelerationVector;
+
+  <span style="color: #5B6268;">// </span><span style="color: #5B6268;">Pack the position into KDL and write to port</span>
+  <span style="color: #a9a1e1;">KDL</span>::<span style="color: #ECBE7B;">JntArray</span> <span style="color: #dcaeea;">q</span>(chain.getNrOfJoints()), <span style="color: #dcaeea;">qd</span>(chain.getNrOfJoints());
+  <span style="color: #5B6268;">// </span><span style="color: #5B6268;">[[http://docs.ros.org/en/indigo/api/orocos_kdl/html/classKDL_1_1JntArray.html][jntarray api]]</span>
+  op-&gt;GetNewPositionVector( q.data.data(), <span style="color: #51afef;">sizeof</span>(<span style="color: #ECBE7B;">double</span>)*chain.getNrOfJoints() );
+  op-&gt;GetNewVelocityVector( qd.data.data(), <span style="color: #51afef;">sizeof</span>(<span style="color: #ECBE7B;">double</span>)*chain.getNrOfJoints() );
+
+  <span style="color: #51afef;">if</span> (result ==<span style="color: #da8548; font-weight: bold;">0</span>){
+    <span style="color: #51afef;">for</span> (<span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span>=<span style="color: #da8548; font-weight: bold;">0</span>;i&lt;N;i++){
+      <span style="color: #a9a1e1;">std</span>::cout&lt;&lt;<span style="color: #a9a1e1;">std</span>::setw(<span style="color: #da8548; font-weight: bold;">15</span>)&lt;&lt;q(i)&lt;&lt;<span style="color: #a9a1e1;">std</span>::setw(<span style="color: #da8548; font-weight: bold;">15</span>)&lt;&lt;qd(i);
+    }
+    <span style="color: #a9a1e1;">std</span>::endl;
+  }
+  port_msr_joints.write(q);
+
+  <span style="color: #51afef;">if</span>( fk_solver != <span style="color: #a9a1e1;">NULL</span> ){
+
+    <span style="color: #a9a1e1;">KDL</span>::<span style="color: #ECBE7B;">Frame</span> <span style="color: #dcaeea;">Rt</span>;
+    <span style="color: #5B6268;">//</span><span style="color: #5B6268;">[[http://docs.ros.org/en/indigo/api/orocos_kdl/html/classKDL_1_1ChainFkSolverPos.html][KDL::JntToCart]]</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">result</span> = fk_solver-&gt;JntToCart(q, Rt);
+    <span style="color: #51afef;">if</span>( result &lt; <span style="color: #da8548; font-weight: bold;">0</span> ){
+      <span style="color: #a9a1e1;">RTT</span>::log(<span style="color: #a9a1e1;">RTT</span>::Error) &lt;&lt; <span style="color: #98be65;">"Failed to compute FK"</span> &lt;&lt; <span style="color: #a9a1e1;">RTT</span>::endlog();
+    }
+    <span style="color: #51afef;">else</span>{
+      <span style="color: #a9a1e1;">geometry_msgs</span>::<span style="color: #a9a1e1;">msg</span>::<span style="color: #ECBE7B;">PoseStamped</span> <span style="color: #dcaeea;">pose</span>;
+      pose.header.frame_id = <span style="color: #98be65;">"world"</span>;
+      pose.pose = <span style="color: #a9a1e1;">tf2</span>::toMsg( Rt );
+      port_msr_pose.write(pose);
+    }
+  }
+
+}
+
+<span style="color: #ECBE7B;">void</span> <span style="color: #a9a1e1;">rtt_robot</span>::<span style="color: #c678dd;">stopHook</span>(){
+  <span style="color: #a9a1e1;">std</span>::cout &lt;&lt; <span style="color: #98be65;">"rtt_robot::stopHook"</span> &lt;&lt; <span style="color: #a9a1e1;">std</span>::endl;
+}
+
+<span style="color: #ECBE7B;">void</span> <span style="color: #a9a1e1;">rtt_robot</span>::<span style="color: #c678dd;">cleanupHook</span>(){
+  <span style="color: #a9a1e1;">std</span>::cout &lt;&lt; <span style="color: #98be65;">"rtt_robot::cleanupHook"</span> &lt;&lt; <span style="color: #a9a1e1;">std</span>::endl;
+}
+
+ORO_CREATE_COMPONENT(rtt_robot)
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org90b6b0b" class="outline-3">
+<h3 id="org90b6b0b"><span class="section-number-3">1.3.</span> update <code>rtt_robot.ops</code></h3>
+<div class="outline-text-3" id="text-1-3">
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #c678dd;">import</span><span style="color: #51afef;">(</span><span style="color: #98be65;">"rtt_ros2"</span><span style="color: #51afef;">)</span>
+<span style="color: #c678dd;">import</span><span style="color: #51afef;">(</span><span style="color: #98be65;">"rtt_ros2_node"</span><span style="color: #51afef;">)</span>
+<span style="color: #c678dd;">import</span><span style="color: #51afef;">(</span><span style="color: #98be65;">"rtt_ros2_topics"</span><span style="color: #51afef;">)</span>
+<span style="color: #c678dd;">import</span><span style="color: #51afef;">(</span><span style="color: #98be65;">"rtt_ros2_params"</span><span style="color: #51afef;">)</span>
+<span style="color: #c678dd;">import</span><span style="color: #51afef;">(</span><span style="color: #98be65;">"rtt_ros2_geometry_msgs"</span><span style="color: #51afef;">)</span>
+
+<span style="color: #c678dd;">import</span><span style="color: #51afef;">(</span><span style="color: #98be65;">"kdl_typekit"</span><span style="color: #51afef;">)</span>
+<span style="color: #c678dd;">import</span><span style="color: #51afef;">(</span><span style="color: #98be65;">"rsp_week07"</span><span style="color: #51afef;">)</span>
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">ros -&gt; get from RTT::internal::GlobalService::Instance()-&gt;getService("ros");</span>
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">global_ros-&gt;getOperation("create_named_node");</span>
+<span style="color: #c678dd;">ros.create_named_node</span><span style="color: #51afef;">(</span><span style="color: #98be65;">"rtt"</span><span style="color: #51afef;">)</span>
+
+<span style="color: #c678dd;">loadComponent</span><span style="color: #51afef;">(</span> <span style="color: #98be65;">"robot"</span>, <span style="color: #98be65;">"rtt_robot"</span> <span style="color: #51afef;">)</span>
+<span style="color: #c678dd;">setActivity</span><span style="color: #51afef;">(</span> <span style="color: #98be65;">"robot"</span>, 0.01, 0, ORO_SCHED_OTHER <span style="color: #51afef;">)</span>
+
+<span style="color: #c678dd;">loadComponent</span><span style="color: #51afef;">(</span> <span style="color: #98be65;">"sensor"</span>, <span style="color: #98be65;">"rtt_sensor"</span> <span style="color: #51afef;">)</span>
+<span style="color: #c678dd;">setActivity</span><span style="color: #51afef;">(</span> <span style="color: #98be65;">"sensor"</span>, 0.01, 0, ORO_SCHED_OTHER <span style="color: #51afef;">)</span>
+
+var ConnPolicy <span style="color: #ECBE7B;">cp</span>
+<span style="color: #c678dd;">connect</span><span style="color: #51afef;">(</span> <span style="color: #98be65;">"robot.MsrWrench"</span>,  <span style="color: #98be65;">"sensor.MsrWrench"</span>,  <span style="color: #ECBE7B;">cp</span> <span style="color: #51afef;">)</span>
+
+<span style="color: #c678dd;">stream</span><span style="color: #51afef;">(</span><span style="color: #98be65;">"sensor.ft"</span>, ros.topic<span style="color: #c678dd;">(</span><span style="color: #98be65;">"/sensor/wrench"</span>, false<span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>
+<span style="color: #c678dd;">stream</span><span style="color: #51afef;">(</span><span style="color: #98be65;">"robot.MsrCartPose"</span>, ros.topic<span style="color: #c678dd;">(</span><span style="color: #98be65;">"/robot/frame"</span>, false<span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>
+
+<span style="color: #c678dd;">sensor.configure</span><span style="color: #51afef;">()</span>
+<span style="color: #c678dd;">sensor.start</span><span style="color: #51afef;">()</span>
+
+<span style="color: #c678dd;">connectPeers</span><span style="color: #51afef;">(</span><span style="color: #98be65;">"robot"</span>, <span style="color: #98be65;">"sensor"</span><span style="color: #51afef;">)</span>
+<span style="color: #c678dd;">robot.configure</span><span style="color: #51afef;">()</span>
+<span style="color: #c678dd;">robot.start</span><span style="color: #51afef;">()</span>
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org673b3bb" class="outline-3">
+<h3 id="org673b3bb"><span class="section-number-3">1.4.</span> Reflexxes api</h3>
+<div class="outline-text-3" id="text-1-4">
+<div class="org-src-container">
+<pre class="src src-shell">usr/local/include/Reflexxes.h
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org77d47b0" class="outline-3">
+<h3 id="org77d47b0"><span class="section-number-3">1.5.</span> Create an Ros node</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+RTT GlobalService can call the service of <b><i>ros</i></b>, and have an internal operation called <code>create_named_node</code> which create an node and publish out.
+</p>
+<div class="org-src-container">
+<pre class="src src-c++">global_ros = <span style="color: #a9a1e1;">RTT</span>::<span style="color: #a9a1e1;">internal</span>::<span style="color: #a9a1e1;">GlobalService</span>::Instance()-&gt;getService(<span style="color: #98be65;">"ros"</span>);
+<span style="color: #a9a1e1;">RTT</span>::<span style="color: #ECBE7B;">OperationCaller</span>&lt;<span style="color: #ECBE7B;">bool</span>(<span style="color: #51afef;">const</span> <span style="color: #a9a1e1;">std</span>::<span style="color: #ECBE7B;">string</span>&amp;)&gt; <span style="color: #dcaeea;">create_node</span> =
+global_ros-&gt;getOperation(<span style="color: #98be65;">"create_named_node"</span>);
+create_node.ready();
+create_node(name);
+</pre>
+</div>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #c678dd;">ros.create_named_node</span><span style="color: #51afef;">(</span><span style="color: #98be65;">"rtt"</span><span style="color: #51afef;">)</span>
+</pre>
+</div>
+<p>
+if we check the <code>ros2 node list</code>, we will find node <code>/rtt</code>.
+to check it&rsquo;s info
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">~$ ros2 node info /rtt
+/rtt
+  Subscribers:
+    /parameter_events: rcl_interfaces/msg/ParameterEvent
+  Publishers:
+    /parameter_events: rcl_interfaces/msg/ParameterEvent
+    */robot/frame: geometry_msgs/msg/PoseStamped*
+    /rosout: rcl_interfaces/msg/Log
+   */sensor/wrench: geometry_msgs/msg/Wrench*
+  Service Servers:
+    /rtt/describe_parameters: rcl_interfaces/srv/DescribeParameters
+    /rtt/get_parameter_types: rcl_interfaces/srv/GetParameterTypes
+    /rtt/get_parameters: rcl_interfaces/srv/GetParameters
+    /rtt/list_parameters: rcl_interfaces/srv/ListParameters
+    /rtt/set_parameters: rcl_interfaces/srv/SetParameters
+    /rtt/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically
+  Service Clients:
+
+  Action Servers:
+
+  Action Clients:
+
+</pre>
+</div>
+<p>
+in ops to publish those two topic
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #c678dd;">stream</span><span style="color: #51afef;">(</span><span style="color: #98be65;">"sensor.ft"</span>, ros.topic<span style="color: #c678dd;">(</span><span style="color: #98be65;">"/sensor/wrench"</span>, false<span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>
+<span style="color: #c678dd;">stream</span><span style="color: #51afef;">(</span><span style="color: #98be65;">"robot.MsrCartPose"</span>, ros.topic<span style="color: #c678dd;">(</span><span style="color: #98be65;">"/robot/frame"</span>, false<span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgfd726b6" class="outline-3">
+<h3 id="orgfd726b6"><span class="section-number-3">1.6.</span> Create an ROS Param</h3>
+<div class="outline-text-3" id="text-1-6">
+<div class="org-src-container">
+<pre class="src src-c++">
+global_params = global_ros-&gt;getService(<span style="color: #98be65;">"rosparam"</span>);
+getparam_operation = global_params-&gt;getOperation(<span style="color: #98be65;">"getParameter"</span>);
+
+<span style="color: #a9a1e1;">rtt_ros2_node</span>::getNode(<span style="color: #51afef;">this</span>)-&gt;declare_parameter(<span style="color: #98be65;">"robot_description"</span>,
+                                            <span style="color: #a9a1e1;">std</span>::string(<span style="color: #98be65;">"asdf"</span>));
+
+</pre>
+</div>
+<p>
+if we run the <code>ros2 param list</code>, it will show up the <code>"robot_description"</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">ros2 param get /rtt robot_description
+String value is: asdf
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org812c145" class="outline-3">
+<h3 id="org812c145"><span class="section-number-3">1.7.</span> Plugin the urdf into Orocos</h3>
+<div class="outline-text-3" id="text-1-7">
+<p>
+To connect the <code>"robot_description"</code> with the robot.urdf, we need do following steps:
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #ECBE7B;">cd</span> src/lecture/rsp_week05/urdf/
+xacro rsp.urdf.xacro &gt;robot.urdf
+ros2 run robot_state_publisher robot_state_publisher --ros-args --param robot_description:=<span style="color: #98be65;">"</span><span style="color: #51afef; font-weight: bold;">`</span><span style="color: #51afef; font-weight: bold;">cat</span><span style="color: #51afef; font-weight: bold;"> robot.urdf`</span><span style="color: #98be65;">"</span>
+</pre>
+</div>
+<p>
+navigate to urdf pwd, and set the param:
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">ros2 param set /rtt robot_description <span style="color: #98be65;">"</span><span style="color: #51afef; font-weight: bold;">`</span><span style="color: #51afef; font-weight: bold;">cat</span><span style="color: #51afef; font-weight: bold;"> robot.urdf`</span><span style="color: #98be65;">"</span>
+</pre>
+</div>
+<p>
+To check the configuration:
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #c678dd;">robot.configure</span><span style="color: #51afef;">()</span>
+/*
+Peer <span style="color: #da8548; font-weight: bold;">0</span> sensor
+Link left_base_link had <span style="color: #da8548; font-weight: bold;">1</span> children
+Link left_upper_link had <span style="color: #da8548; font-weight: bold;">1</span> children
+Link left_tool had <span style="color: #da8548; font-weight: bold;">0</span> children
+<span style="color: #da8548; font-weight: bold;">4334.556</span> <span style="color: #51afef;">[</span> Info   <span style="color: #51afef;">][</span>Logger<span style="color: #51afef;">]</span> Description parsed to a tree
+<span style="color: #da8548; font-weight: bold;">4334.556</span> <span style="color: #51afef;">[</span> Info   <span style="color: #51afef;">][</span>Logger<span style="color: #51afef;">]</span> Description parsed to a chain
+ = true
+*/
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Huan Min</p>
+<p class="date">Created: 2023-04-08 Sat 22:35</p>
+</div>
+</body>
+</html>

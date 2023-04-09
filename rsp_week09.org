@@ -1,0 +1,396 @@
+#+title: /Rsp_week09/
+
+* environment configuration
+**alias/command to help with environment varialbe being too long**
+#+begin_src shell
+echo $RTT_COMPONENT_PATH
+# change the colcon prefix
+export COLCON_PREFIX_PATH=/home/huan/test_ws/install
+
+#+end_src
+copied/pasted in your =.bashrc= file below. After that you can set the variable by typing ="rsp_rtt"=
+#+begin_src shell
+alias rsp_rtt='export RTT_COMPONENT_PATH=$COLCON_PREFIX_PATH/kdl_typekit/lib/orocos:$COLCON_PREFIX_PATH/orocos_toolchain/lib/orocos:$COLCON_PREFIX_PATH/rtt_ros2_builtin_interfaces/lib/orocos:$COLCON_PREFIX_PATH/rtt_ros2_geometry_msgs/lib/orocos:$COLCON_PREFIX_PATH/rtt_ros2_interfaces/lib/orocos:$COLCON_PREFIX_PATH/rtt_ros2/lib/orocos:$COLCON_PREFIX_PATH/rtt_ros2_node/lib/orocos:$COLCON_PREFIX_PATH/rtt_ros2_params/lib/orocos:$COLCON_PREFIX_PATH/rtt_ros2_primitives_typekit/lib/orocos:$COLCON_PREFIX_PATH/rtt_ros2_rclcpp_typekit/lib/orocos:$COLCON_PREFIX_PATH/rtt_ros2_std_msgs/lib/orocos:$COLCON_PREFIX_PATH/rtt_ros2_topics/lib/orocos:$COLCON_PREFIX_PATH/rsp_week07/lib/orocos'
+
+#+end_src
+
+#+RESULTS:
+
+** update =robot.hpp=
+#+begin_src c++
+#include <ReflexxesAPI.h>
+#include <RMLPositionFlags.h>
+#include <RMLPositionInputParameters.h>
+#include <RMLPositionOutputParameters.h>
+
+#include <rtt/TaskContext.hpp>
+#include <rtt/InputPort.hpp>
+#include <rtt/OutputPort.hpp>
+
+#include <kdl/chainfksolverpos_recursive.hpp>
+#include <kdl_parser/kdl_parser.hpp>
+#include <kdl/frames.hpp>
+
+#include <rtt_ros2_params/rtt_ros2_params.hpp>
+
+#include <geometry_msgs/msg/pose_stamped.hpp>
+
+#include <kdl/frames.hpp>
+#include <kdl/jntarray.hpp>
+
+class rtt_robot : public RTT::TaskContext {
+
+private:
+
+  RTT::InputPort<KDL::Wrench> port_msr_wrench;
+  RTT::OutputPort<KDL::JntArray> port_msr_joints;
+  RTT::OutputPort<geometry_msgs::msg::PoseStamped> port_msr_pose;
+
+  RTT::OperationCaller<void(void)> zero;
+  RTT::OperationCaller<void(const KDL::Wrench&)> offset;
+
+  //size_t N;
+  ReflexxesAPI* rml;
+  RMLPositionInputParameters* ip;
+  RMLPositionOutputParameters* op;
+  RMLPositionFlags flags;
+
+  RTT::Service::shared_ptr global_ros;
+  RTT::Service::shared_ptr global_params;
+  RTT::OperationCaller<rclcpp::ParameterValue(std::string)> getparam_operation;
+
+  KDL::Chain chain;
+  KDL::ChainFkSolverPos_recursive* fk_solver;
+
+public:
+
+  rtt_robot( const std::string& name );
+  ~rtt_robot();
+
+  virtual bool configureHook();
+  virtual bool startHook();
+
+  virtual void updateHook();
+
+  virtual void stopHook();
+  virtual void cleanupHook();
+
+};
+#+end_src
+** update =robot.cpp=
+#+begin_src c++
+#include <rsp_week07/rtt_robot.hpp>
+#include <iomanip>
+
+#include <rtt/internal/GlobalService.hpp>
+
+#include <rtt_ros2/rtt_ros2.hpp>
+#include <rtt_ros2_node/rtt_ros2_node.hpp>
+#include <rtt_ros2_params/rtt_ros2_params.hpp>
+
+#include <tf2_kdl/tf2_kdl.h>
+
+
+#include <rtt/Component.hpp>
+
+rtt_robot::rtt_robot( const std::string& name ) :
+  TaskContext(name),
+  //foward kinematics solver
+  fk_solver(NULL){
+
+  std::cout << "rtt_robot::rtt_robot" << std::endl;
+  // Data flow ports
+  addPort("MsrWrench", port_msr_wrench ).doc("Measured wrench");
+  addPort("MsrJntPos", port_msr_joints ).doc("Measured joint positions");
+  addPort("MsrCartPose", port_msr_pose ).doc("Measured Cartesian position");
+
+  global_ros = RTT::internal::GlobalService::Instance()->getService("ros");
+  RTT::OperationCaller<bool(const std::string&)> create_node =
+    global_ros->getOperation("create_named_node");
+  create_node.ready();
+  create_node(name);
+
+  global_params = global_ros->getService("rosparam");
+  getparam_operation = global_params->getOperation("getParameter");
+
+  rtt_ros2_node::getNode(this)->declare_parameter("robot_description",
+                                                  std::string("asdf"));
+
+}
+
+rtt_robot::~rtt_robot(){
+  if(rml) delete rml;
+  if (ip) delete ip;
+  if (op) delete op;
+  if (fk_solver) delete fk_solver;
+}
+
+bool rtt_robot::configureHook(){
+
+  std::cout << "rtt_robot::configureHook" << std::endl;
+
+  std::vector<std::string> peer_list = getPeerList();
+  for(size_t i=0; i<peer_list.size(); i++ ){
+    std::cout << "Peer " << i << " " << peer_list[i] << std::endl;
+    if( peer_list[i] == "sensor" ){
+      zero = getPeer(peer_list[i])->getOperation("Zero");
+      offset = getPeer(peer_list[i])->getOperation("SetOffset");
+    }
+  }
+
+  rclcpp::ParameterValue new_string = getparam_operation.call("robot_description");
+
+  std::string robot_description = new_string.get<std::string>();
+
+  RTT::log().setLogLevel( RTT::Logger::Info );
+
+  KDL::Tree tree;
+  if( kdl_parser::treeFromString( robot_description, tree)){
+    RTT::log(RTT::Info) << "Description parsed to a tree" << RTT::endlog();
+    if( tree.getChain("world", "left_tool", chain)){
+      fk_solver = new KDL::ChainFkSolverPos_recursive(chain);
+    }
+    else{
+      RTT::log(RTT::Error) << "Failed to parse chain between world and link"
+                           << RTT::endlog();
+    }
+  }
+  else{
+    RTT::log(RTT::Error) << "Failed to parse tree" << RTT::endlog();
+  }
+  RTT::log(RTT::Info) << "Description parsed to a chain" << RTT::endlog();
+
+  rml = new ReflexxesAPI( chain.getNrOfJoints(), getPeriod() );
+  ip = new RMLPositionInputParameters( chain.getNrOfJoints() );
+  op = new RMLPositionOutputParameters( chain.getNrOfJoints() );
+
+  return true;
+}
+
+bool rtt_robot::startHook(){
+  std::cout << "rtt_robot::startHook" << std::endl;
+
+  for( size_t i=0; i<chain.getNrOfJoints(); i++ ){
+
+    // current state of the robot
+    // In reality you need to querry the real robot to get these
+    ip->CurrentPositionVector->VecData[i] = 0.0;
+    ip->CurrentVelocityVector->VecData[i] = 0.0;
+    ip->CurrentAccelerationVector->VecData[i] = 0.0;
+
+    // robot limits
+    // These should come from a config file
+    ip->MaxVelocityVector->VecData[i] = 1.0;
+    ip->MaxAccelerationVector->VecData[i] = 1.0;
+    ip->MaxJerkVector->VecData[i] = 10.0;
+
+    ip->SelectionVector->VecData[i] = true;
+
+  }
+
+  // These are goal position/velocities
+  // This has no business here and should come from an operation/port
+  ip->TargetPositionVector->VecData[0] = 1.0;
+  ip->TargetPositionVector->VecData[1] = 3.0;
+  ip->TargetVelocityVector->VecData[0] = 0.0;
+  ip->TargetVelocityVector->VecData[1] = 0.0;
+
+  return true;
+}
+
+void rtt_robot::updateHook(){
+
+  KDL::Wrench ft;
+  if( port_msr_wrench.read( ft ) == RTT::NewData ){
+    /*
+      std::cout << std::endl
+      << "rtt_robot::updateHook: "
+      << ft.force.x() << std::setw(15)
+      << ft.force.y() << std::setw(15)
+      << ft.force.z() << std::endl;
+    ,*/
+  }
+
+  // mess with the FT sensor
+  zero.send();
+  offset.send( ft );
+
+  // Interpolate the next trajectory point
+  int result = rml->RMLPosition( *ip, op, flags );
+
+  // Update the current state to be the state
+  // This assume that the positions/velocities/accelerations
+  // are sent to the real robot _and_ that the real robot
+  // will move to that position. Otherwise, the current state
+  // should be obtained from the real roboto
+  ,*ip->CurrentPositionVector = *op->NewPositionVector;
+  ,*ip->CurrentVelocityVector = *op->NewVelocityVector;
+  ,*ip->CurrentAccelerationVector = *op->NewAccelerationVector;
+
+  // Pack the position into KDL and write to port
+  KDL::JntArray q(chain.getNrOfJoints()), qd(chain.getNrOfJoints());
+  // [[http://docs.ros.org/en/indigo/api/orocos_kdl/html/classKDL_1_1JntArray.html][jntarray api]]
+  op->GetNewPositionVector( q.data.data(), sizeof(double)*chain.getNrOfJoints() );
+  op->GetNewVelocityVector( qd.data.data(), sizeof(double)*chain.getNrOfJoints() );
+
+  if (result ==0){
+    for (int i=0;i<N;i++){
+      std::cout<<std::setw(15)<<q(i)<<std::setw(15)<<qd(i);
+    }
+    std::endl;
+  }
+  port_msr_joints.write(q);
+
+  if( fk_solver != NULL ){
+
+    KDL::Frame Rt;
+    //[[http://docs.ros.org/en/indigo/api/orocos_kdl/html/classKDL_1_1ChainFkSolverPos.html][KDL::JntToCart]]
+    int result = fk_solver->JntToCart(q, Rt);
+    if( result < 0 ){
+      RTT::log(RTT::Error) << "Failed to compute FK" << RTT::endlog();
+    }
+    else{
+      geometry_msgs::msg::PoseStamped pose;
+      pose.header.frame_id = "world";
+      pose.pose = tf2::toMsg( Rt );
+      port_msr_pose.write(pose);
+    }
+  }
+
+}
+
+void rtt_robot::stopHook(){
+  std::cout << "rtt_robot::stopHook" << std::endl;
+}
+
+void rtt_robot::cleanupHook(){
+  std::cout << "rtt_robot::cleanupHook" << std::endl;
+}
+
+ORO_CREATE_COMPONENT(rtt_robot)
+
+#+end_src
+
+** update =rtt_robot.ops=
+#+begin_src shell
+import("rtt_ros2")
+import("rtt_ros2_node")
+import("rtt_ros2_topics")
+import("rtt_ros2_params")
+import("rtt_ros2_geometry_msgs")
+
+import("kdl_typekit")
+import("rsp_week07")
+# ros -> get from RTT::internal::GlobalService::Instance()->getService("ros");
+# global_ros->getOperation("create_named_node");
+ros.create_named_node("rtt")
+
+loadComponent( "robot", "rtt_robot" )
+setActivity( "robot", 0.01, 0, ORO_SCHED_OTHER )
+
+loadComponent( "sensor", "rtt_sensor" )
+setActivity( "sensor", 0.01, 0, ORO_SCHED_OTHER )
+
+var ConnPolicy cp
+connect( "robot.MsrWrench",  "sensor.MsrWrench",  cp )
+
+stream("sensor.ft", ros.topic("/sensor/wrench", false))
+stream("robot.MsrCartPose", ros.topic("/robot/frame", false))
+
+sensor.configure()
+sensor.start()
+
+connectPeers("robot", "sensor")
+robot.configure()
+robot.start()
+#+end_src
+
+
+** Reflexxes api
+#+begin_src shell
+usr/local/include/Reflexxes.h
+
+#+end_src
+** Create an Ros node
+RTT GlobalService can call the service of */ros/*, and have an internal operation called =create_named_node= which create an node and publish out.
+#+begin_src c++
+global_ros = RTT::internal::GlobalService::Instance()->getService("ros");
+RTT::OperationCaller<bool(const std::string&)> create_node =
+global_ros->getOperation("create_named_node");
+create_node.ready();
+create_node(name);
+#+end_src
+#+begin_src shell
+ros.create_named_node("rtt")
+#+end_src
+if we check the =ros2 node list=, we will find node =/rtt=.
+to check it's info
+#+begin_src shell
+~$ ros2 node info /rtt
+/rtt
+  Subscribers:
+    /parameter_events: rcl_interfaces/msg/ParameterEvent
+  Publishers:
+    /parameter_events: rcl_interfaces/msg/ParameterEvent
+    */robot/frame: geometry_msgs/msg/PoseStamped*
+    /rosout: rcl_interfaces/msg/Log
+   */sensor/wrench: geometry_msgs/msg/Wrench*
+  Service Servers:
+    /rtt/describe_parameters: rcl_interfaces/srv/DescribeParameters
+    /rtt/get_parameter_types: rcl_interfaces/srv/GetParameterTypes
+    /rtt/get_parameters: rcl_interfaces/srv/GetParameters
+    /rtt/list_parameters: rcl_interfaces/srv/ListParameters
+    /rtt/set_parameters: rcl_interfaces/srv/SetParameters
+    /rtt/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically
+  Service Clients:
+
+  Action Servers:
+
+  Action Clients:
+
+#+end_src
+in ops to publish those two topic
+#+begin_src shell
+stream("sensor.ft", ros.topic("/sensor/wrench", false))
+stream("robot.MsrCartPose", ros.topic("/robot/frame", false))
+#+end_src
+** Create an ROS Param
+#+begin_src c++
+
+global_params = global_ros->getService("rosparam");
+getparam_operation = global_params->getOperation("getParameter");
+
+rtt_ros2_node::getNode(this)->declare_parameter("robot_description",
+                                            std::string("asdf"));
+
+#+end_src
+if we run the =ros2 param list=, it will show up the ="robot_description"=.
+#+begin_src shell
+ros2 param get /rtt robot_description
+String value is: asdf
+
+#+end_src
+** Plugin the urdf into Orocos
+To connect the ="robot_description"= with the robot.urdf, we need do following steps:
+#+begin_src shell
+cd src/lecture/rsp_week05/urdf/
+xacro rsp.urdf.xacro >robot.urdf
+ros2 run robot_state_publisher robot_state_publisher --ros-args --param robot_description:="`cat robot.urdf`"
+#+end_src
+navigate to urdf pwd, and set the param:
+#+begin_src shell
+ros2 param set /rtt robot_description "`cat robot.urdf`"
+#+end_src
+To check the configuration:
+#+begin_src shell
+robot.configure()
+/*
+Peer 0 sensor
+Link left_base_link had 1 children
+Link left_upper_link had 1 children
+Link left_tool had 0 children
+4334.556 [ Info   ][Logger] Description parsed to a tree
+4334.556 [ Info   ][Logger] Description parsed to a chain
+ = true
+*/
+#+end_src
