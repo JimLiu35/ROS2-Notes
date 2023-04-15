@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-04-08 Sat 22:35 -->
+<!-- 2023-04-09 Sun 19:20 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>/Rsp_week09/</title>
@@ -201,23 +201,23 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orge246770">1. environment configuration</a>
+<li><a href="#orga0177da">1. environment configuration</a>
 <ul>
-<li><a href="#orgb72fd2a">1.1. update <code>robot.hpp</code></a></li>
-<li><a href="#org62260a9">1.2. update <code>robot.cpp</code></a></li>
-<li><a href="#org90b6b0b">1.3. update <code>rtt_robot.ops</code></a></li>
-<li><a href="#org673b3bb">1.4. Reflexxes api</a></li>
-<li><a href="#org77d47b0">1.5. Create an Ros node</a></li>
-<li><a href="#orgfd726b6">1.6. Create an ROS Param</a></li>
-<li><a href="#org812c145">1.7. Plugin the urdf into Orocos</a></li>
+<li><a href="#orgea8906e">1.1. update <code>robot.hpp</code></a></li>
+<li><a href="#org7988c6f">1.2. update <code>robot.cpp</code></a></li>
+<li><a href="#org3d3545d">1.3. update <code>rtt_robot.ops</code></a></li>
+<li><a href="#orge639f73">1.4. Reflexxes api</a></li>
+<li><a href="#orgf0f6df7">1.5. Create an Ros node</a></li>
+<li><a href="#org24fc4a6">1.6. Create an ROS Param</a></li>
+<li><a href="#orga624cb9">1.7. Plugin the urdf into Orocos</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orge246770" class="outline-2">
-<h2 id="orge246770"><span class="section-number-2">1.</span> environment configuration</h2>
+<div id="outline-container-orga0177da" class="outline-2">
+<h2 id="orga0177da"><span class="section-number-2">1.</span> environment configuration</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 <b><b>alias/command to help with environment varialbe being too long</b></b>
@@ -239,8 +239,8 @@ copied/pasted in your <code>.bashrc</code> file below. After that you can set th
 </div>
 </div>
 
-<div id="outline-container-orgb72fd2a" class="outline-3">
-<h3 id="orgb72fd2a"><span class="section-number-3">1.1.</span> update <code>robot.hpp</code></h3>
+<div id="outline-container-orgea8906e" class="outline-3">
+<h3 id="orgea8906e"><span class="section-number-3">1.1.</span> update <code>robot.hpp</code></h3>
 <div class="outline-text-3" id="text-1-1">
 <div class="org-src-container">
 <pre class="src src-c++"><span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">&lt;ReflexxesAPI.h&gt;</span>
@@ -305,8 +305,8 @@ copied/pasted in your <code>.bashrc</code> file below. After that you can set th
 </div>
 </div>
 </div>
-<div id="outline-container-org62260a9" class="outline-3">
-<h3 id="org62260a9"><span class="section-number-3">1.2.</span> update <code>robot.cpp</code></h3>
+<div id="outline-container-org7988c6f" class="outline-3">
+<h3 id="org7988c6f"><span class="section-number-3">1.2.</span> update <code>robot.cpp</code></h3>
 <div class="outline-text-3" id="text-1-2">
 <div class="org-src-container">
 <pre class="src src-c++"><span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">&lt;rsp_week07/rtt_robot.hpp&gt;</span>
@@ -504,8 +504,8 @@ ORO_CREATE_COMPONENT(rtt_robot)
 </div>
 </div>
 
-<div id="outline-container-org90b6b0b" class="outline-3">
-<h3 id="org90b6b0b"><span class="section-number-3">1.3.</span> update <code>rtt_robot.ops</code></h3>
+<div id="outline-container-org3d3545d" class="outline-3">
+<h3 id="org3d3545d"><span class="section-number-3">1.3.</span> update <code>rtt_robot.ops</code></h3>
 <div class="outline-text-3" id="text-1-3">
 <div class="org-src-container">
 <pre class="src src-shell"><span style="color: #c678dd;">import</span><span style="color: #51afef;">(</span><span style="color: #98be65;">"rtt_ros2"</span><span style="color: #51afef;">)</span>
@@ -544,8 +544,8 @@ var ConnPolicy <span style="color: #ECBE7B;">cp</span>
 </div>
 
 
-<div id="outline-container-org673b3bb" class="outline-3">
-<h3 id="org673b3bb"><span class="section-number-3">1.4.</span> Reflexxes api</h3>
+<div id="outline-container-orge639f73" class="outline-3">
+<h3 id="orge639f73"><span class="section-number-3">1.4.</span> Reflexxes api</h3>
 <div class="outline-text-3" id="text-1-4">
 <div class="org-src-container">
 <pre class="src src-shell">usr/local/include/Reflexxes.h
@@ -554,8 +554,8 @@ var ConnPolicy <span style="color: #ECBE7B;">cp</span>
 </div>
 </div>
 </div>
-<div id="outline-container-org77d47b0" class="outline-3">
-<h3 id="org77d47b0"><span class="section-number-3">1.5.</span> Create an Ros node</h3>
+<div id="outline-container-orgf0f6df7" class="outline-3">
+<h3 id="orgf0f6df7"><span class="section-number-3">1.5.</span> Create an Ros node</h3>
 <div class="outline-text-3" id="text-1-5">
 <p>
 RTT GlobalService can call the service of <b><i>ros</i></b>, and have an internal operation called <code>create_named_node</code> which create an node and publish out.
@@ -611,8 +611,8 @@ in ops to publish those two topic
 </div>
 </div>
 </div>
-<div id="outline-container-orgfd726b6" class="outline-3">
-<h3 id="orgfd726b6"><span class="section-number-3">1.6.</span> Create an ROS Param</h3>
+<div id="outline-container-org24fc4a6" class="outline-3">
+<h3 id="org24fc4a6"><span class="section-number-3">1.6.</span> Create an ROS Param</h3>
 <div class="outline-text-3" id="text-1-6">
 <div class="org-src-container">
 <pre class="src src-c++">
@@ -635,8 +635,8 @@ String value is: asdf
 </div>
 </div>
 </div>
-<div id="outline-container-org812c145" class="outline-3">
-<h3 id="org812c145"><span class="section-number-3">1.7.</span> Plugin the urdf into Orocos</h3>
+<div id="outline-container-orga624cb9" class="outline-3">
+<h3 id="orga624cb9"><span class="section-number-3">1.7.</span> Plugin the urdf into Orocos</h3>
 <div class="outline-text-3" id="text-1-7">
 <p>
 To connect the <code>"robot_description"</code> with the robot.urdf, we need do following steps:
@@ -676,7 +676,7 @@ Link left_tool had <span style="color: #da8548; font-weight: bold;">0</span> chi
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Huan Min</p>
-<p class="date">Created: 2023-04-08 Sat 22:35</p>
+<p class="date">Created: 2023-04-09 Sun 19:20</p>
 </div>
 </body>
 </html>

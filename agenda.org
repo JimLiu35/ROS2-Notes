@@ -1,0 +1,57 @@
+#+title: Agenda
+
+
+* Assignment 07 Done
+** DONE LIST
+1. Install the ur_description
+   [[https://github.com/UniversalRobots/Universal_Robots_ROS2_Description][ur_description]]
+    #+begin_src shell
+    sudo apt install ros-galactic-ur-decription
+    #+end_src
+2. Create the template of the package
+   - CMake.file
+   - rtt_ur.cpp
+     - constructor
+       - construct Port,addOperation
+       - construct ros service
+       - declare parameter
+       - subscribe an topic
+   - startHook
+     - initialize the joint and Cartesian port(ip,op,rml),joint(currentPosition,CurrentVelocity,CurrentAcceleration)
+   - configureHook
+   - updateHook
+   - stopHook
+   - cleanHook
+   - ur.ops
+     - Write scripts ops load component and stream the topic of ROS
+     - load the componet
+     - set the actvity
+     - create node name
+     - stream the topic for publish
+     - import("rtt_ur_trajectory")
+
+3. Externally Load the urdf of Ur5 into Orocos
+   1. set param /para_name "`xacro ur.urdf.xacro args:= ....`"
+      #+begin_src shell
+ ros2 param set /ur5 ur5_description "`xacro ur.urdf.xacro` --param
+ safety_limits:= TRUE, safety_pos_margin:= 0.15,safety_k_position:=20, name:='ur', ur_type:= 'ur5e',prefix:=''
+
+
+#+end_src
+4. Internally load the urdf in to Orocos
+   1. first we need subscribe the param from launch file
+   2. we need write the content of subscribition and to set parameter for the one we declare in cpp.
+5. Have two Operation MoveJ and MoveC
+   1. MoveJ : KDL::JntArray -> desired joint position
+      -
+   2. MoveC : KDL::Frame -> desired Cartesian frame of Ur5
+** TODO LIST
+** IDEA List
+*** LOG
+What's the meaning of Rtt::OperationCaller<signature> what's the signature?
+- we dont need operationcaller for this task;
+How to write the launch file in python.
+[[https://roboticscasual.com/tutorial-ros2-launch-files-all-you-need-to-know/#launch-substitutions][launch.py tutorial]]
+issue: IK failed -> q_init should be the current joint state;
+launch file workflow
+jntMsr -> read jointState
